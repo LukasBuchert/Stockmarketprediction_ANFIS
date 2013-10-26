@@ -1,21 +1,23 @@
 package anfis;
 
+import java.util.Arrays;
+
 public class PolynomialNode extends Node {
-	private double p;
-	private double q;
-	private double r;
+	private double[] consequentParameter;
 	
 	private double output;
 	
-	public PolynomialNode(double p, double q, double r) {
+	public PolynomialNode(double[] consequentParameter) {
 		super();
-		this.p = p;
-		this.q = q;
-		this.r = r;
+		this.consequentParameter = consequentParameter;
+	}
+	
+	public void updateConsequentParameter(double[] newConsequentParameter) {
+		consequentParameter = newConsequentParameter;
 	}
 	
 	public double applyPolinomial(double x, double y) {
-		output = ((NormFSNode)linkedNodes.get(0)).getNormFS() * (p * x + q * y + r);
+		output = ((NormFSNode)linkedNodes.get(0)).getNormFS() * (consequentParameter[0] * x + consequentParameter[1] * y + consequentParameter[2]);
 		return output;
 	}
 	

@@ -2,7 +2,8 @@ package anfis;
 
 public class Main {
 	public static void main(String[] args) {
-		ANFIS anfis = new ANFIS();
+		double[] input = {Math.random(), Math.random(), 1.0D};
+		ANFIS anfis = new ANFIS(input);
 		Layer l1 = anfis.getLayer(1);
 		Layer l2 = anfis.getLayer(2);
 		Layer l3 = anfis.getLayer(3);
@@ -35,21 +36,19 @@ public class Main {
 		NormFSNode nfs;
 		for(int i = 0; i < 4; i++) {
 			nfs = (NormFSNode)l3.getNodes().get(i);
-			PolynomialNode pn = new PolynomialNode(Math.random(), Math.random(), Math.random());
+			PolynomialNode pn = new PolynomialNode(anfis.getConsequentParameter(i));
 			l4.addNode(pn);
 			Node.addBidirectionalLink(pn, nfs);
 		}
 		
 		// - - - - - - - - - - - -
-		double x1 = Math.random();
-		double x2 = Math.random();
 		
 		int i = 0;
 		for(Node n : l1.getNodes()) {
 			if(i < 2) {
-				System.out.println("M1: " + ((MembershipFunctionNode)n).applyMembershipFunction(x1));
+				System.out.println("M1: " + ((MembershipFunctionNode)n).applyMembershipFunction(input[0]));
 			} else {
-				System.out.println("M2: " + ((MembershipFunctionNode)n).applyMembershipFunction(x2));
+				System.out.println("M2: " + ((MembershipFunctionNode)n).applyMembershipFunction(input[1]));
 			}
 			i++;
 		}
@@ -74,8 +73,25 @@ public class Main {
 		
 		double output = 0;
 		for(Node n : l4.getNodes()) {
-			System.out.println("PN: " + ((PolynomialNode)n).applyPolinomial(x1, x2));
-			output += ((PolynomialNode)n).applyPolinomial(x1, x2);
+			System.out.println("PN: " + ((PolynomialNode)n).applyPolinomial(input[0], input[1]));
+			output += ((PolynomialNode)n).applyPolinomial(input[0], input[1]);
+		}
+		
+		System.out.println("\nOutput: " + output);
+		
+		anfis.computeLeastSquareEstimate();
+		i = 0;
+		for(Node n : l4.getNodes()) {
+			((PolynomialNode)n).updateConsequentParameter(anfis.getConsequentParameter(i));
+			i++;
+		}
+		
+		// new parameter test
+		
+		output = 0;
+		for(Node n : l4.getNodes()) {
+			System.out.println("PN: " + ((PolynomialNode)n).applyPolinomial(input[0], input[1]));
+			output += ((PolynomialNode)n).applyPolinomial(input[0], input[1]);
 		}
 		
 		System.out.println("\nOutput: " + output);

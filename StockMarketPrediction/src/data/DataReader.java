@@ -135,7 +135,7 @@ public class DataReader {
     private int countData() {
         int back = 1;
         try {
-            BufferedReader in = new BufferedReader(new FileReader("input.txt"));
+            BufferedReader in = new BufferedReader(new FileReader("input1.txt"));
             String zeile = null;
             while ((zeile = in.readLine()) != null) {
                 back++;

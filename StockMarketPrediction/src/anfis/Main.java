@@ -1,5 +1,7 @@
 package anfis;
 
+import data.DataReader;
+
 public class Main {
 	public static void main(String[] args) {
 		double[] input = {Math.random(), Math.random(), 1.0D};
@@ -95,5 +97,9 @@ public class Main {
 		}
 		
 		System.out.println("\nOutput: " + output);
+	
+	DataReader test = new DataReader();
+	test.readData();
 	}
+	
 }

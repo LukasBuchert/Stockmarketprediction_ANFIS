@@ -2,7 +2,7 @@ package anfis;
 
 import java.util.Arrays;
 
-import weka.core.matrix.Matrix;
+//import weka.core.matrix.Matrix;
 
 public class ANFIS {
 	private Layer[] layer;
@@ -47,10 +47,10 @@ public class ANFIS {
 			}
 		}
 		
-		Matrix lseHelperMatrix = new Matrix(lseHelperArray, lseHelperArray.length);
-		Matrix lse = lseHelperMatrix.transpose().times(lseHelperMatrix).inverse().times(lseHelperMatrix.transpose()).times(expectedOutput);
+		//Matrix lseHelperMatrix = new Matrix(lseHelperArray, lseHelperArray.length);
+		//Matrix lse = lseHelperMatrix.transpose().times(lseHelperMatrix).inverse().times(lseHelperMatrix.transpose()).times(expectedOutput);
 		
-		consequentParameter = lse.getArray()[0];
+		//consequentParameter = lse.getArray()[0];
 	}
 	
 	public Layer getLayer(int id) {

@@ -3,6 +3,8 @@ package anfis;
 import java.util.ArrayList;
 import java.util.List;
 
+import nodes.Node;
+
 public class Layer {
 	private List<Node> nodes;
 	

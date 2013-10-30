@@ -1,13 +1,18 @@
-package anfis;
+package nodes;
+
+import util.Settings;
 
 public class FiringStrengthNode extends Node{
-	private double firingStrength;
+	private double[] firingStrength;
 	
 	public FiringStrengthNode() {
 		super();
+		firingStrength = new double[Settings.trainingDataSize];
 	}
 	
 	public double computeFiringStregnth() {
+		incCurrIter();
+		
 		double result;
 		result = ((MembershipFunctionNode)linkedNodes.get(0)).getMembershipValue();
 		for(Node n : linkedNodes) {
@@ -15,8 +20,8 @@ public class FiringStrengthNode extends Node{
 				result = firingStrengthFunction(result, ((MembershipFunctionNode)n).getMembershipValue());
 			}
 		}
-		firingStrength = result;
-		return firingStrength;
+		firingStrength[currentIteration] = result;
+		return firingStrength[currentIteration];
 	}
 	
 	private double firingStrengthFunction(double value1, double value2) {
@@ -24,6 +29,6 @@ public class FiringStrengthNode extends Node{
 	}
 	
 	public double getFiringStrength() {
-		return firingStrength;
+		return firingStrength[currentIteration];
 	}
 }

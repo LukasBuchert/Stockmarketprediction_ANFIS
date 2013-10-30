@@ -1,13 +1,17 @@
-package anfis;
+package nodes;
+
+import util.Settings;
+import anfis.Layer;
 
 public class NormFSNode extends Node {
 	private FiringStrengthNode fsNode;
-	private double normalizedFiringStrength;
+	private double[] normalizedFiringStrength;
 	private static double fsSum;
 	
 	public NormFSNode(FiringStrengthNode fsNode) {
 		super();
 		this.fsNode = fsNode;
+		normalizedFiringStrength = new double[Settings.trainingDataSize];
 	}
 	
 	public static double computeSumOfFiringStrengths(Layer layer) {
@@ -22,11 +26,13 @@ public class NormFSNode extends Node {
 	}
 	
 	public double computeNormalizedFiringStrength() {
-		normalizedFiringStrength = fsNode.getFiringStrength() / fsSum;
-		return normalizedFiringStrength;
+		incCurrIter();
+		
+		normalizedFiringStrength[currentIteration] = fsNode.getFiringStrength() / fsSum;
+		return normalizedFiringStrength[currentIteration];
 	}
 	
 	public double getNormFS() {
-		return normalizedFiringStrength;
+		return normalizedFiringStrength[currentIteration];
 	}
 }

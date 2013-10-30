@@ -1,10 +1,17 @@
 package anfis;
 
+import nodes.FiringStrengthNode;
+import nodes.MembershipFunctionNode;
+import nodes.Node;
+import nodes.NormFSNode;
+import nodes.PolynomialNode;
 import data.DataReader;
 
 public class Main {
 	public static void main(String[] args) {
 		double[] input = {Math.random(), Math.random(), 1.0D};
+		
+		// Creating ANFIS network
 		ANFIS anfis = new ANFIS(input);
 		Layer l1 = anfis.getLayer(1);
 		Layer l2 = anfis.getLayer(2);
@@ -43,7 +50,7 @@ public class Main {
 			Node.addBidirectionalLink(pn, nfs);
 		}
 		
-		// - - - - - - - - - - - -
+		// - - - - - Executing ANFIS - - - - - - -
 		
 		int i = 0;
 		for(Node n : l1.getNodes()) {

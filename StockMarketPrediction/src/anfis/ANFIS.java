@@ -2,18 +2,30 @@ package anfis;
 
 import java.util.Arrays;
 
+import nodes.MembershipFunctionNode;
+import nodes.Node;
+import nodes.NormFSNode;
+
+import util.Settings;
 import weka.core.matrix.Matrix;
 
 public class ANFIS {
 	private Layer[] layer;
-	private double[] input;
-	private double expectedOutput;
+	private double[][] data;
+	private int inputSize;
 	private double[] premiseParameter;
 	private double[] consequentParameter;
 
-	public ANFIS(double[] input) {
-		this.input = input;
-		expectedOutput = 2.0D;
+	/**
+	 * 
+	 * @param data 	[i][0] - expected ouput
+	 * 				[i][j>0] - input
+	 * @param relativeTrainingSize relative size of training data to test data, interval [0;1]
+	 */
+	public ANFIS(double[][] data, double relativeTrainingSize) {
+		this.data = data;
+		inputSize = data[0].length - 1;
+		Settings.trainingDataSize = (int)(data.length * relativeTrainingSize);
 		layer = new Layer[4];
 		for (int i = 0; i < 4; i++) {
 			layer[i] = new Layer();
@@ -31,20 +43,20 @@ public class ANFIS {
 	}
 
 	public double[] getConsequentParameter(int id) {
-		return Arrays.copyOfRange(consequentParameter, id * input.length, id
-				* input.length + input.length);
+		return Arrays.copyOfRange(consequentParameter, id * inputSize, id
+				* inputSize + inputSize);
 	}
 
 	public void computeLeastSquareEstimate() {
 		Layer l3 = this.getLayer(3);
-		double[] normFS = new double[l3.getNodes().size()];
+		double[][] normFS = new double[l3.getNodes().size()][];
 		int i = 0;
 		for (Node n : l3.getNodes()) {
-			normFS[i] = ((NormFSNode) n).getNormFS();
+			normFS[i][] = ((NormFSNode) n).getNormFS();
 			i++;
 		}
 
-		double[] lseHelperArray = new double[input.length * normFS.length];
+		double[] lseHelperArray = new double[inputSize * normFS.length];
 		i = 0;
 		for (double nfs : normFS) {
 			for (double in : input) {

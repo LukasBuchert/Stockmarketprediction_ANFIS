@@ -21,6 +21,10 @@ public class DataReader {
         data = new double[countData()][6];
     }
 
+    /**
+     * statistics of whole input
+     * @return -- see
+     */
     public double[][] getStatistics(){
         double [][] statistics = new double [3][6];
         
@@ -49,6 +53,29 @@ public class DataReader {
         }
         
         return statistics;
+    }
+    /**
+     * statistics of one-dimension data array
+     * @param input - on dimensional array
+     * @return [0] = min, [1] = max, [2] = average values of input-array
+     */
+    public static double[] getStatistics (double[] input){
+    	double [] back = {input[0],input[0],input[0]};
+    	
+    	for (int i = 1; i < input.length; i++){
+    		back[2] = back[2] + input[i];
+    		
+    		if (back [0] > input [i]){
+    			back [0] = input [i];
+    		}
+    		if (back [1] < input [i]){
+    			back [1] = input [i];
+    		}
+    	}
+    	
+    	back[2] = back[2] / input.length;
+    	
+    	return back;
     }
     /**
      * double [i][x] returns the i-th chart data

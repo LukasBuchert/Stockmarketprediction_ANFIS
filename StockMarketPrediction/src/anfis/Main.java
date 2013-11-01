@@ -9,10 +9,12 @@ import data.DataReader;
 
 public class Main {
 	public static void main(String[] args) {
-		double[] input = {Math.random(), Math.random(), 1.0D};
+		DataReader input = new DataReader();
 		
 		// Creating ANFIS network
-		ANFIS anfis = new ANFIS(input);
+		ANFIS anfis = new ANFIS(input.readData(),0.7);
+		
+		/**
 		Layer l1 = anfis.getLayer(1);
 		Layer l2 = anfis.getLayer(2);
 		Layer l3 = anfis.getLayer(3);
@@ -88,7 +90,7 @@ public class Main {
 		
 		System.out.println("\nOutput: " + output);
 		
-		anfis.computeLeastSquareEstimate();
+		//anfis.computeLeastSquareEstimate();
 		i = 0;
 		for(Node n : l4.getNodes()) {
 			((PolynomialNode)n).updateConsequentParameter(anfis.getConsequentParameter(i));
@@ -105,8 +107,7 @@ public class Main {
 		
 		System.out.println("\nOutput: " + output);
 	
-	DataReader test = new DataReader();
-	test.readData();
+	*/
 	}
-	
+
 }

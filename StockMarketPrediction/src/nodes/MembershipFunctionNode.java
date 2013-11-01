@@ -2,6 +2,8 @@ package nodes;
 
 import util.Settings;
 
+// layer 1
+
 public class MembershipFunctionNode extends Node{
 	private double a;
 	private double b;

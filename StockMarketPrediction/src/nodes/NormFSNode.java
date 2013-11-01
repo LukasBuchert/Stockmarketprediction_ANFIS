@@ -3,6 +3,8 @@ package nodes;
 import util.Settings;
 import anfis.Layer;
 
+// layer 3
+
 public class NormFSNode extends Node {
 	private FiringStrengthNode fsNode;
 	private double[] normalizedFiringStrength;

@@ -2,6 +2,8 @@ package nodes;
 
 import util.Settings;
 
+// layer 2
+
 public class FiringStrengthNode extends Node{
 	private double[] firingStrength;
 	

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import util.Settings;
 
+// layer 4
 
 public class PolynomialNode extends Node {
 	private double[] consequentParameter;

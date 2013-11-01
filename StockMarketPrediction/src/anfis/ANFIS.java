@@ -2,6 +2,9 @@ package anfis;
 
 import java.util.Arrays;
 
+import data.DataReader;
+
+import nodes.FiringStrengthNode;
 import nodes.MembershipFunctionNode;
 import nodes.Node;
 import nodes.NormFSNode;
@@ -23,13 +26,44 @@ public class ANFIS {
 	 * @param relativeTrainingSize relative size of training data to test data, interval [0;1]
 	 */
 	public ANFIS(double[][] data, double relativeTrainingSize) {
+		
+		// input
 		this.data = data;
 		inputSize = data[0].length - 1;
 		Settings.trainingDataSize = (int)(data.length * relativeTrainingSize);
+		Settings.numberOfShapes = 3;
+		Settings.bellSlope = 2;
+		
+		// definition of layers
 		layer = new Layer[4];
 		for (int i = 0; i < 4; i++) {
 			layer[i] = new Layer();
 		}
+		
+		// save all msfNodes for generating the FiringStrengthNodes
+		MembershipFunctionNode[][] msfNodes = new MembershipFunctionNode[Settings.numberOfShapes][inputSize];
+		
+		// adds new nodes to layer 1 -- for each input numberOfShapes-times MembershipfunctionNodes
+		for (int i = 0; i < inputSize; i++){
+			double[] statistics = DataReader.getStatistics(getDataColumn(i+1));
+			MembershipFunctionNode[] inputNodes = getDefaultMemberships(statistics[0], statistics[1], Settings.numberOfShapes, Settings.bellSlope);
+			for (int j = 0; j < inputNodes.length; j++){
+				layer[0].addNode(inputNodes[j]);
+				msfNodes[j][i] = inputNodes[j];
+			}
+		}
+		
+		// generating new nodes for layer 2
+		
+		int [] countingArray = new int [msfNodes[0].length];
+		for (int x : countingArray){
+			x = 0;
+		}
+		generateFiringStrengthNodes(layer[1], msfNodes, countingArray, msfNodes.length, 0);
+		
+		
+		
+		// whatever
 		premiseParameter = new double[3 * 4]; // TODO size of array equal to 3
 												// times number of membership
 												// functions
@@ -46,8 +80,49 @@ public class ANFIS {
 		return Arrays.copyOfRange(consequentParameter, id * inputSize, id
 				* inputSize + inputSize);
 	}
+	/**
+	 * 
+	 * @param column - number
+	 * @return column of data
+	 */
+	private double[] getDataColumn (int column){
+		double [] back = new double [data.length];
+		
+		for (int i = 0; i < back.length; i++){
+			back [i] = data[i][column];
+		}
+		
+		return back;
+	}
+	
+	/**
+	 * Generating layer 2 nodes by using all nodes from layer 1 and connecting them using backtracking algorithm
+	 * @param layer -- layer 2 
+	 * @param msfNodes all nodes of layer one 	[a1][a2][a3] example structure
+	 * 											[b1][b2][b3]
+	 * 											[c1][c2][c3]
+	 * @param countingArray -- for backtrack [0][1][1] --> leads to [a1][b2][c2] - start [0][0][0] * msfNodes[0].length
+	 * @param big -- for backtrack - start msfNodes.lenght
+	 * @param pos -- for backtrack - start is 0
+	 */
+	private void generateFiringStrengthNodes(Layer layer, MembershipFunctionNode [][] msfNodes, int [] countingArray, int big, int pos){
+		
+		if (pos < countingArray.length){
+			for (int p = 0; p < big; p++){
+				countingArray[pos] = p;
+				generateFiringStrengthNodes(layer,msfNodes,countingArray,big,pos+1);
+			}
+		} else{
+			FiringStrengthNode f = new FiringStrengthNode();
+			layer.addNode(f);
+			for (int i = 0; i < msfNodes[0].length; i++){
+				f.addLink(msfNodes[countingArray[i]][i]);
+			}
+		}
+		
+	}
 
-	public void computeLeastSquareEstimate() {
+/*	public void computeLeastSquareEstimate() {
 		Layer l3 = this.getLayer(3);
 		double[][] normFS = new double[l3.getNodes().size()][];
 		int i = 0;
@@ -68,7 +143,7 @@ public class ANFIS {
 		Matrix lseHelperMatrix = new Matrix(lseHelperArray,lseHelperArray.length);
 		Matrix lse = lseHelperMatrix.transpose().times(lseHelperMatrix).inverse().times(lseHelperMatrix.transpose()).times(expectedOutput);
 		consequentParameter = lse.getArray()[0];
-	}
+	} */
 
 	/**
 	 * returns a set of function nodes from min to max divided by number of shapes

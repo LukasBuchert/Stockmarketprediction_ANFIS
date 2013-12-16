@@ -1,6 +1,8 @@
 package anfis;
 
+
 import java.util.Arrays;
+import java.util.List;
 
 import data.DataReader;
 
@@ -8,6 +10,7 @@ import nodes.FiringStrengthNode;
 import nodes.MembershipFunctionNode;
 import nodes.Node;
 import nodes.NormFSNode;
+import nodes.PolynomialNode;
 
 import util.Settings;
 import weka.core.matrix.Matrix;
@@ -61,6 +64,40 @@ public class ANFIS {
 		}
 		generateFiringStrengthNodes(layer[1], msfNodes, countingArray, msfNodes.length, 0);
 		
+		// generating new nodes for layer 3
+		
+		List<Node> LayerTwoNodes = layer[1].getNodes();
+		
+		for (int i = 0; i < LayerTwoNodes.size(); i++){
+			NormFSNode n = new NormFSNode(LayerTwoNodes.get(i));
+			layer[2].addNode(n);
+			
+			for (int j = 0; j < LayerTwoNodes.size(); j++){
+				LayerTwoNodes.get(i).addLink(n);
+			}
+		}
+		
+		// generating new nodes for layer 4
+		
+		for (int i = 0; i < layer[2].getNodes().size(); i ++){
+			double[] consequentParameter = {0.0, 0.0, 0.0};
+			// TODO change System with consequentParameter
+			PolynomialNode pn = new PolynomialNode(consequentParameter);
+			layer[3].addNode(pn);
+			layer[2].getNodes().get(i).addLink(pn);
+		}
+		
+		// generating layer 5 node
+		// TODO add class for layer 5 node
+		// TODO extra layer for end node or not ??
+		
+		Node lastNode = new Node();
+		
+		for (int i = 0; i < layer[3].getNodes().size(); i++){
+			layer[3].getNodes().get(i).addLink(lastNode);
+		}
+		
+		// TODO test build of ANFIS
 		
 		
 		// whatever

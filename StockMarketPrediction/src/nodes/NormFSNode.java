@@ -10,9 +10,9 @@ public class NormFSNode extends Node {
 	private double[] normalizedFiringStrength;
 	private static double fsSum;
 	
-	public NormFSNode(FiringStrengthNode fsNode) {
+	public NormFSNode(Node node) {
 		super();
-		this.fsNode = fsNode;
+		this.fsNode = (FiringStrengthNode) node;
 		normalizedFiringStrength = new double[Settings.trainingDataSize];
 	}
 	

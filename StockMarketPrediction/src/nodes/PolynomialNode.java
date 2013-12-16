@@ -24,7 +24,7 @@ public class PolynomialNode extends Node {
 	public double applyPolinomial(double x, double y) {
 		incCurrIter();
 		
-		output[currentIteration] = ((NormFSNode)linkedNodes.get(0)).getNormFS() * (consequentParameter[0] * x + consequentParameter[1] * y + consequentParameter[2]);
+		output[currentIteration] = ((NormFSNode)successor.get(0)).getNormFS() * (consequentParameter[0] * x + consequentParameter[1] * y + consequentParameter[2]);
 		return output[currentIteration];
 	}
 	

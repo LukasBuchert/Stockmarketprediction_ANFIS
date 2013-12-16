@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-	protected List<Node> linkedNodes;
+	
+	protected List<Node> predecessor;
+	protected List<Node> successor;
 	protected int currentIteration;
 	
 	public Node() {
-		linkedNodes = new ArrayList<Node>();
+		predecessor = new ArrayList<Node>();
+		successor = new ArrayList<Node>();
 		currentIteration = -1;
 	}
 	
@@ -18,7 +21,8 @@ public class Node {
 	
 	public void addLink(Node node) {
 		if(node != this) {
-			linkedNodes.add(node);
+			this.successor.add(node);
+			node.predecessor.add(this);
 		}
 	}
 	

@@ -16,8 +16,8 @@ public class FiringStrengthNode extends Node{
 		incCurrIter();
 		
 		double result;
-		result = ((MembershipFunctionNode)linkedNodes.get(0)).getMembershipValue();
-		for(Node n : linkedNodes) {
+		result = ((MembershipFunctionNode)successor.get(0)).getMembershipValue();
+		for(Node n : successor) {
 			if(n instanceof MembershipFunctionNode) {
 				result = firingStrengthFunction(result, ((MembershipFunctionNode)n).getMembershipValue());
 			}

@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import data.DataReader;
-
+import nodes.FeedforwardFunction;
 import nodes.FiringStrengthNode;
 import nodes.MembershipFunctionNode;
 import nodes.Node;
 import nodes.NormFSNode;
 import nodes.PolynomialNode;
-
 import util.Settings;
 import weka.core.matrix.Matrix;
 
@@ -69,11 +68,11 @@ public class ANFIS {
 		List<Node> LayerTwoNodes = layer[1].getNodes();
 		
 		for (int i = 0; i < LayerTwoNodes.size(); i++){
-			NormFSNode n = new NormFSNode(LayerTwoNodes.get(i));
+			NormFSNode n = new NormFSNode((FiringStrengthNode)LayerTwoNodes.get(i));
 			layer[2].addNode(n);
 			
 			for (int j = 0; j < LayerTwoNodes.size(); j++){
-				LayerTwoNodes.get(i).addLink(n);
+				LayerTwoNodes.get(i).addSuccessorLink(n);
 			}
 		}
 		
@@ -84,7 +83,7 @@ public class ANFIS {
 			// TODO change System with consequentParameter
 			PolynomialNode pn = new PolynomialNode(consequentParameter);
 			layer[3].addNode(pn);
-			layer[2].getNodes().get(i).addLink(pn);
+			layer[2].getNodes().get(i).addSuccessorLink(pn);
 		}
 		
 		// generating layer 5 node
@@ -94,7 +93,7 @@ public class ANFIS {
 		Node lastNode = new Node();
 		
 		for (int i = 0; i < layer[3].getNodes().size(); i++){
-			layer[3].getNodes().get(i).addLink(lastNode);
+			layer[3].getNodes().get(i).addSuccessorLink(lastNode);
 		}
 		
 		// TODO test build of ANFIS
@@ -153,7 +152,7 @@ public class ANFIS {
 			FiringStrengthNode f = new FiringStrengthNode();
 			layer.addNode(f);
 			for (int i = 0; i < msfNodes[0].length; i++){
-				f.addLink(msfNodes[countingArray[i]][i]);
+				f.addSuccessorLink(msfNodes[countingArray[i]][i]);
 			}
 		}
 		

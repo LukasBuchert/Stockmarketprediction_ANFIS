@@ -16,12 +16,8 @@ public class Node {
 		output = new double[Settings.trainingDataSize];
 	}
 	
-	protected void setOutput(double newOutput) {
-		output[Settings.currentIteration] = newOutput;
-	}
-	
-	public double getOutput() {
-		return output[Settings.currentIteration];
+	protected void setOutput(double newOutput, int index) {
+		output[index] = newOutput;
 	}
 	
 	public double getOutput(int index) {
@@ -29,7 +25,7 @@ public class Node {
 	}
 	
 	public void addSuccessorLink(Node node) {
-		if(node != this) {
+		if(node != this && !this.isSuccessor(node)) {
 			successorNodes.add(node);
 			if(!node.isPredecessor(this)) {
 				node.addPredecessorLink(this);
@@ -38,7 +34,7 @@ public class Node {
 	}
 	
 	public void addPredecessorLink(Node node) {
-		if(node != this) {
+		if(node != this && !this.isPredecessor(node)) {
 			predecessorNodes.add(node);
 			if(!node.isSuccessor(this)) {
 				node.addSuccessorLink(this);

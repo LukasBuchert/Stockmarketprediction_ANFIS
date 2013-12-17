@@ -26,4 +26,10 @@ public class BackpropagationFunction implements NodeVisitor{
 		
 	}
 
+	@Override
+	public void visit(OutputNode on) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

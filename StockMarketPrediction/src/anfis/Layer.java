@@ -16,6 +16,12 @@ public class Layer {
 		nodes.add(node);
 	}
 	
+	public void addNode(Node[] node){
+		for (Node n : node) {
+			this.addNode(n);
+		}
+	}
+	
 	public List<Node> getNodes() {
 		return nodes;
 	}

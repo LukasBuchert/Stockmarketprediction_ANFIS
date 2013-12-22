@@ -9,6 +9,7 @@ public class Node {
 	protected List<Node> predecessorNodes;
 	protected List<Node> successorNodes;
 	protected double[] output;
+	protected double[] error;
 	
 	public Node() {
 		predecessorNodes = new ArrayList<Node>();

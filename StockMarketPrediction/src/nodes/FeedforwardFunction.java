@@ -7,14 +7,18 @@ public class FeedforwardFunction implements NodeVisitor{
 	private int currentIteration;
 	private int index;
 
+	public void setInput(double[] input) {
+		this.input = input;
+	}
+	
 	public void setCurrentIteration(int currentIteration) {
 		this.currentIteration = currentIteration;
 	}
 
 	// firing strength function for FiringStrengthNode
 	private double firingStrengthFunction(double value1, double value2) {
-		return Math.min(value1, value2);
-		//return value1 * value2
+		//return Math.min(value1, value2);
+		return value1 * value2;
 	}
 	
 	@Override
@@ -32,18 +36,10 @@ public class FeedforwardFunction implements NodeVisitor{
 		double result = 1.0D / (1.0D + Math.pow(Math.pow((input[index] - mfn.c) / mfn.a, 2.0D), mfn.b));
 		mfn.setOutput(result, currentIteration);
 	}
-	
-	public double computeSumOfFiringStrengths(Node nfsn) {
-		double result = 0;
-		for(Node n : nfsn.predecessorNodes) {
-			result += n.getOutput(currentIteration);
-		}
-		return result;
-	}
 
 	@Override
 	public void visit(NormFSNode nfsn) {
-		double result = nfsn.primaryNode.getOutput(currentIteration) / computeSumOfFiringStrengths(nfsn);
+		double result = nfsn.primaryPredecessorNode.getOutput(currentIteration) / nfsn.computeSumOfFiringStrengths(currentIteration);
 		nfsn.setOutput(result, currentIteration);
 	}
 

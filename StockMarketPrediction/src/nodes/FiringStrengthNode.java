@@ -3,9 +3,14 @@ package nodes;
 // layer 2
 
 public class FiringStrengthNode extends Node implements NodeClient{
-	
+	public NormFSNode primarySuccessorNode;
+
 	public FiringStrengthNode() {
 		super();
+	}
+	
+	public void setPrimarySuccessorNode(NormFSNode primarySuccessorNode) {
+		this.primarySuccessorNode = primarySuccessorNode;
 	}
 
 	@Override

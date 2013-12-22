@@ -3,11 +3,20 @@ package nodes;
 // layer 3
 
 public class NormFSNode extends Node implements NodeClient{
-	public FiringStrengthNode primaryNode;
+	public FiringStrengthNode primaryPredecessorNode;
 	
-	public NormFSNode(FiringStrengthNode primaryNode) {
+	public NormFSNode(FiringStrengthNode primaryPredecessorNode) {
 		super();
-		this.primaryNode = primaryNode;
+		this.primaryPredecessorNode = primaryPredecessorNode;
+		primaryPredecessorNode.setPrimarySuccessorNode(this);
+	}
+	
+	public double computeSumOfFiringStrengths(int currentIteration) {
+		double result = 0;
+		for(Node n : predecessorNodes) {
+			result += n.getOutput(currentIteration);
+		}
+		return result;
 	}
 
 	@Override

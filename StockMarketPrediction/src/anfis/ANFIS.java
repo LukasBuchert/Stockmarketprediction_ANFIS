@@ -1,38 +1,18 @@
 package anfis;
 
-
-import nodes.FiringStrengthNode;
-import nodes.MembershipFunctionNode;
-import nodes.Node;
-import nodes.NormFSNode;
-import nodes.PolynomialNode;
+import nodes.*;
 import util.Settings;
 
 public class ANFIS {
-	
 
 	// all layers of an anfis network;
 	private Layer layer1, layer2, layer3, layer4, layer5;
 
-	/**
-	 * 
-	 * @param data
-	 *            [i][0] - expected ouput [i][j>0] - input
-	 * @param relativeTrainingSize
-	 *            relative size of training data to test data, interval [0;1]
-	 */
-	public ANFIS(double[][] data, double relativeTrainingSize) {
+	public ANFIS() {
 
-		// input
-		//this.data = data;
-		// inputSize = data[0].length - 1;
-		Settings.trainingDataSize = (int) (data.length * relativeTrainingSize);
-		Settings.numberOfShapes = 3;
-		Settings.bellSlope = 2;
-
-		// TODO set Settings 
-		
 	}
+	
+	
 
 	// generating new network -- overwrite old if there was one
 	public void generateNetwork() {
@@ -65,8 +45,8 @@ public class ANFIS {
 
 	private void generateLayer2() {
 
-		int numberOfNodes = Settings.numberOfShapes
-				^ Settings.numberOfInputVaribles;
+		int numberOfNodes = 
+		(int) Math.pow(Settings.numberOfShapes, Settings.numberOfInputVaribles);
 		int[] counter = new int[Settings.numberOfInputVaribles];
 		initializeArray(counter);
 
@@ -96,22 +76,21 @@ public class ANFIS {
 	}
 
 	private void initializeArray(int[] input) {
-		for (int i = 0; i < input.length ; i++) {
+		for (int i = 0; i < input.length; i++) {
 			input[i] = 0;
 		}
 	}
 
 	private MembershipFunctionNode searchMembersphipFunctionNode(int varNumber,
 			int setNumber) {
-		//TODO Function in Layer 2 to find concerning node
-		return null;
+		return layer1.getMFSNode(varNumber, setNumber);
 	}
 
 	private void generateLayer3() {
-		
+
 		for (int i = 0; i < layer2.getNodes().size(); i++) {
-			NormFSNode n = new NormFSNode(
-					(FiringStrengthNode) layer2.getNodes().get(i));
+			NormFSNode n = new NormFSNode((FiringStrengthNode) layer2
+					.getNodes().get(i));
 			layer3.addNode(n);
 
 			for (int j = 0; j < layer2.getNodes().size(); j++) {
@@ -121,7 +100,7 @@ public class ANFIS {
 	}
 
 	private void generateLayer4() {
-		
+
 		for (int i = 0; i < layer3.getNodes().size(); i++) {
 			double[] consequentParameter = { 0.0, 0.0, 0.0 };
 			// TODO change System with consequentParameter
@@ -132,20 +111,14 @@ public class ANFIS {
 	}
 
 	private void generateLayer5() {
-		
-		// generating layer 5 node
-				// TODO add class for layer 5 node
-				// TODO extra layer for end node or not ??
 
-				Node lastNode = new Node();
-				layer5.addNode(lastNode);
+		Node lastNode = new OutputNode();
+		layer5.addNode(lastNode);
 
-				for (int i = 0; i < layer4.getNodes().size(); i++) {
-					layer4.getNodes().get(i).addSuccessorLink(lastNode);
-				}
+		for (int i = 0; i < layer4.getNodes().size(); i++) {
+			layer4.getNodes().get(i).addSuccessorLink(lastNode);
+		}
 	}
-
-	
 
 	/**
 	 * returns a set of function nodes from min to max divided by number of
@@ -219,12 +192,11 @@ public class ANFIS {
 
 // part earlier was in ANFIS consturctor
 /*
- * premiseParameter = new double[3 * 4]; //  size of array equal to 3 //
- * times number of membership // functions consequentParameter = new double[3 *
- * 4]; 
- * //  size of array equal to // number of polynomial // nodes times
- * (number of // input parameter + 1) for (int i = 0; i <
- * consequentParameter.length; i++) { consequentParameter[i] = Math.random(); }
+ * premiseParameter = new double[3 * 4]; // size of array equal to 3 // times
+ * number of membership // functions consequentParameter = new double[3 * 4]; //
+ * size of array equal to // number of polynomial // nodes times (number of //
+ * input parameter + 1) for (int i = 0; i < consequentParameter.length; i++) {
+ * consequentParameter[i] = Math.random(); }
  */
 
 // *********************************************************************************************************
@@ -248,52 +220,41 @@ public class ANFIS {
  * = inputNodes[j]; } }
  */
 
-//generating new nodes for layer 2
+// generating new nodes for layer 2
 /*
-int[] countingArray = new int[msfNodes[0].length];
-for (int x : countingArray) {
-	x = 0;
-}
-generateFiringStrengthNodes(layer[1], msfNodes, countingArray,
-		msfNodes.length, 0);
-*/
+ * int[] countingArray = new int[msfNodes[0].length]; for (int x :
+ * countingArray) { x = 0; } generateFiringStrengthNodes(layer[1], msfNodes,
+ * countingArray, msfNodes.length, 0);
+ */
 
 /*
- * Generating layer 2 nodes by using all nodes from layer 1 and connecting
- * them using backtracking algorithm
+ * Generating layer 2 nodes by using all nodes from layer 1 and connecting them
+ * using backtracking algorithm
  * 
- * @param layer
- *            -- layer 2
- * @param msfNodes
- *            all nodes of layer one [a1][a2][a3] example structure
- *            [b1][b2][b3] [c1][c2][c3]
- * @param countingArray
- *            -- for backtrack [0][1][1] --> leads to [a1][b2][c2] - start
- *            [0][0][0] * msfNodes[0].length
- * @param big
- *            -- for backtrack - start msfNodes.lenght
- * @param pos
- *            -- for backtrack - start is 0
- 
-private void generateFiringStrengthNodes(Layer layer,
-		MembershipFunctionNode[][] msfNodes, int[] countingArray, int big,
-		int pos) {
-
-	if (pos < countingArray.length) {
-		for (int p = 0; p < big; p++) {
-			countingArray[pos] = p;
-			generateFiringStrengthNodes(layer, msfNodes, countingArray,
-					big, pos + 1);
-		}
-	} else {
-		FiringStrengthNode f = new FiringStrengthNode();
-		layer.addNode(f);
-		for (int i = 0; i < msfNodes[0].length; i++) {
-			f.addSuccessorLink(msfNodes[countingArray[i]][i]);
-		}
-	}
-
-}*/
+ * @param layer -- layer 2
+ * 
+ * @param msfNodes all nodes of layer one [a1][a2][a3] example structure
+ * [b1][b2][b3] [c1][c2][c3]
+ * 
+ * @param countingArray -- for backtrack [0][1][1] --> leads to [a1][b2][c2] -
+ * start [0][0][0] * msfNodes[0].length
+ * 
+ * @param big -- for backtrack - start msfNodes.lenght
+ * 
+ * @param pos -- for backtrack - start is 0
+ * 
+ * private void generateFiringStrengthNodes(Layer layer,
+ * MembershipFunctionNode[][] msfNodes, int[] countingArray, int big, int pos) {
+ * 
+ * if (pos < countingArray.length) { for (int p = 0; p < big; p++) {
+ * countingArray[pos] = p; generateFiringStrengthNodes(layer, msfNodes,
+ * countingArray, big, pos + 1); } } else { FiringStrengthNode f = new
+ * FiringStrengthNode(); layer.addNode(f); for (int i = 0; i <
+ * msfNodes[0].length; i++) { f.addSuccessorLink(msfNodes[countingArray[i]][i]);
+ * } }
+ * 
+ * }
+ */
 
 /*
  * /**

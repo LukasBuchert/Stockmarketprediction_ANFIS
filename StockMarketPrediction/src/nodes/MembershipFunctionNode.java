@@ -43,5 +43,13 @@ public class MembershipFunctionNode extends Node implements NodeClient {
 	public int getSetNumber() {
 		return setNumber;
 	}
+	
+	public MembershipFunctionNode getMFSNode(int varNumber, int setNumber){
+		if (this.varNumber == varNumber && this.setNumber == setNumber){
+			return this;
+		}else {
+			return null;
+		}
+	}
 
 }

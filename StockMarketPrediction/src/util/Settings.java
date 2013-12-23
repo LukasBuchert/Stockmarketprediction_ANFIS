@@ -18,18 +18,41 @@ public class Settings {
 	
 	// statistics of trainigData input Varibles
 	// [x][y]; x = number of variable -1 / y0 = min, y1 = max, y2 = avg
-	public static double [][] trainingDataStatistics;
+	//public static double [][] trainingDataStatistics;
+	
+	public static InputVariable [] inputVariables;
 	
 	public static double getMin( int varNumber){
-		return trainingDataStatistics [varNumber-1][0];
+		double back = 0.0;
+		for (InputVariable i : inputVariables){
+			if (i.equals(varNumber) != null){
+				back = i.getMin();
+				break;
+			}
+		}
+		return back;
 	}
 	
 	public static double getMax( int varNumber){
-		return trainingDataStatistics [varNumber-1][1];
+		double back = 0.0;
+		for (InputVariable i : inputVariables){
+			if (i.equals(varNumber) != null){
+				back = i.getMax();
+				break;
+			}
+		}
+		return back;
 	}
 	
 	public static double getAvg( int varNumber){
-		return trainingDataStatistics [varNumber-1][2];
+		double back = 0.0;
+		for (InputVariable i : inputVariables){
+			if (i.equals(varNumber) != null){
+				back = i.getAvg();
+				break;
+			}
+		}
+		return back;
 	}
 	
 }

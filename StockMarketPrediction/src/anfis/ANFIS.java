@@ -23,6 +23,16 @@ public class ANFIS {
 		generateLayer4();
 		generateLayer5();
 	}
+	
+	public void training (double [] trainigSet){
+		
+		// TODO perhaps using layer instead of using nodes 
+		/**
+		FeedforwardFunction fff = new FeedforwardFunction();
+		fff.setInput(trainigSet);
+		fff.setCurrentIteration(0);
+		*/
+	}
 
 	private void initializeLayers() {
 		layer1 = new Layer();
@@ -102,9 +112,7 @@ public class ANFIS {
 	private void generateLayer4() {
 
 		for (int i = 0; i < layer3.getNodes().size(); i++) {
-			double[] consequentParameter = { 0.0, 0.0, 0.0 };
-			// TODO change System with consequentParameter
-			PolynomialNode pn = new PolynomialNode(consequentParameter);
+			PolynomialNode pn = new PolynomialNode(Settings.consequentParameter);
 			layer4.addNode(pn);
 			layer3.getNodes().get(i).addSuccessorLink(pn);
 		}

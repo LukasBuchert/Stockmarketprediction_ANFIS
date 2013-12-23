@@ -19,12 +19,18 @@ public class Main {
 					statistics[1][i]);
 		}
 
+		
+		
+		// set Settings
+		
 		Settings.numberOfInputVaribles = statistics[0].length;
 		// TODO do we need this ??
 		Settings.trainingDataSize = 0;
 		Settings.numberOfShapes = 4;
 		Settings.bellSlope = 2;
 		Settings.inputVariables = inputVariables;
+		double [] consequentParameter = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+		Settings.consequentParameter = consequentParameter;
 
 		// Creating ANFIS network
 		ANFIS anfis = new ANFIS();

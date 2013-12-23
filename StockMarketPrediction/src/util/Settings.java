@@ -15,6 +15,9 @@ public class Settings {
 	// slope of bell shapes
 	public static double bellSlope;
 	
+	// consequent parameters
+	public static double [] consequentParameter;
+	
 	
 	// statistics of trainigData input Varibles
 	// [x][y]; x = number of variable -1 / y0 = min, y1 = max, y2 = avg

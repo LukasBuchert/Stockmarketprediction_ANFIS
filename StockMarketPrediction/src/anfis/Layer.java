@@ -27,6 +27,12 @@ public class Layer {
 	public List<Node> getNodes() {
 		return nodes;
 	}
+	
+//	public void sendVisitorToAllNodes(NodeVisitor visitor) {
+//		for(Node n : nodes) {
+//			
+//		}
+//	}
 
 	public MembershipFunctionNode getMFSNode(int varNumber, int setNumber) {
 

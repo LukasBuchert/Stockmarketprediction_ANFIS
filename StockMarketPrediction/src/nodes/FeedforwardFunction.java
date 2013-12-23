@@ -5,7 +5,6 @@ import java.util.Iterator;
 public class FeedforwardFunction implements NodeVisitor{
 	private double[] input;
 	private int currentIteration;
-	private int index;
 
 	public void setInput(double[] input) {
 		this.input = input;
@@ -33,7 +32,7 @@ public class FeedforwardFunction implements NodeVisitor{
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
-		double result = 1.0D / (1.0D + Math.pow(Math.pow((input[index] - mfn.c) / mfn.a, 2.0D), mfn.b));
+		double result = 1.0D / (1.0D + Math.pow(Math.pow((input[mfn.getVarNumber() - 1] - mfn.c) / mfn.a, 2.0D), mfn.b));
 		mfn.setOutput(result, currentIteration);
 	}
 

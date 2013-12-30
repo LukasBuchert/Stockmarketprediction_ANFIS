@@ -3,26 +3,23 @@ package nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.Settings;
-
 public class Node {
 	protected List<Node> predecessorNodes;
 	protected List<Node> successorNodes;
-	protected double[] output;
-	protected double[] error;
+	protected double output;
+	protected double error;
 	
 	public Node() {
 		predecessorNodes = new ArrayList<Node>();
 		successorNodes = new ArrayList<Node>();
-		output = new double[Settings.trainingDataSize];
 	}
 	
-	protected void setOutput(double newOutput, int index) {
-		output[index] = newOutput;
+	public void setOutput(double newOutput) {
+		output = newOutput;
 	}
 	
-	public double getOutput(int index) {
-		return output[index];
+	public double getOutput() {
+		return output;
 	}
 	
 	public void addSuccessorLink(Node node) {

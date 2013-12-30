@@ -4,14 +4,18 @@ import java.util.Iterator;
 
 public class FeedforwardFunction implements NodeVisitor{
 	private double[] input;
-	private int currentIteration;
+	private boolean saveNormFSOutput;
 
+	public FeedforwardFunction(boolean saveNormFSOutput) {
+		this.saveNormFSOutput = saveNormFSOutput;
+	}
+	
 	public void setInput(double[] input) {
 		this.input = input;
 	}
 	
-	public void setCurrentIteration(int currentIteration) {
-		this.currentIteration = currentIteration;
+	public void setSaveNormFSOutput(boolean saveNormFSOutput) {
+		this.saveNormFSOutput = saveNormFSOutput;
 	}
 
 	// firing strength function for FiringStrengthNode
@@ -23,23 +27,23 @@ public class FeedforwardFunction implements NodeVisitor{
 	@Override
 	public void visit(FiringStrengthNode fsn) {
 		Iterator<Node> predNodes = fsn.predecessorNodes.iterator();
-		double result = predNodes.next().getOutput(currentIteration);
+		double result = predNodes.next().getOutput();
 		while(predNodes.hasNext()) {
-			result = firingStrengthFunction(result, predNodes.next().getOutput(currentIteration));
+			result = firingStrengthFunction(result, predNodes.next().getOutput());
 		}
-		fsn.setOutput(result, currentIteration);
+		fsn.setOutput(result);
 	}
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
 		double result = 1.0D / (1.0D + Math.pow(Math.pow((input[mfn.getVarNumber() - 1] - mfn.c) / mfn.a, 2.0D), mfn.b));
-		mfn.setOutput(result, currentIteration);
+		mfn.setOutput(result);
 	}
 
 	@Override
 	public void visit(NormFSNode nfsn) {
-		double result = nfsn.primaryPredecessorNode.getOutput(currentIteration) / nfsn.computeSumOfFiringStrengths(currentIteration);
-		nfsn.setOutput(result, currentIteration);
+		double result = nfsn.primaryPredecessorNode.getOutput() / nfsn.computeSumOfFiringStrengths();
+		nfsn.setOutput(result, saveNormFSOutput);
 	}
 
 	@Override
@@ -51,17 +55,17 @@ public class FeedforwardFunction implements NodeVisitor{
 		}
 		i++; //TODO: check if computed correctly
 		polyResult += pn.consequentParameter[i];
-		double result = pn.predecessorNodes.get(0).getOutput(currentIteration) * polyResult;
-		pn.setOutput(result, currentIteration);
+		double result = pn.predecessorNodes.get(0).getOutput() * polyResult;
+		pn.setOutput(result);
 	}
 
 	@Override
 	public void visit(OutputNode on) {
 		double result = 0;
 		for(Node n : on.predecessorNodes) {
-			result += n.getOutput(currentIteration);
+			result += n.getOutput();
 		}
-		on.setOutput(result, currentIteration);
+		on.setOutput(result);
 	}
 
 }

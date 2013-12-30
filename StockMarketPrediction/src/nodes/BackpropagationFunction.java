@@ -15,47 +15,47 @@ public class BackpropagationFunction implements NodeVisitor{
 	@Override
 	public void visit(FiringStrengthNode fsn) {
 		double errorResult = 0.0D;
-		double sumOfFiringStrengths = ((NormFSNode)fsn.successorNodes.get(0)).computeSumOfFiringStrengths(currentIteration);
+		double sumOfFiringStrengths = ((NormFSNode)fsn.successorNodes.get(0)).computeSumOfFiringStrengths();
 		for(Node n : fsn.successorNodes) {
 			if(n.equals(fsn.primarySuccessorNode)) {
-				errorResult += n.error[currentIteration] * (( sumOfFiringStrengths - fsn.getOutput(currentIteration) ) / sumOfFiringStrengths / sumOfFiringStrengths);
+				errorResult += n.error * (( sumOfFiringStrengths - fsn.getOutput() ) / sumOfFiringStrengths / sumOfFiringStrengths);
 			} else {
-				errorResult += n.error[currentIteration] * fsn.getOutput(currentIteration) / sumOfFiringStrengths / sumOfFiringStrengths;
+				errorResult += n.error * fsn.getOutput() / sumOfFiringStrengths / sumOfFiringStrengths;
 			}
 		}
-		fsn.error[currentIteration] = errorResult;
+		fsn.error = errorResult;
 	}
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
 		double errorResult = 0.0D;
 		for(Node n : mfn.successorNodes) {
-			errorResult += n.error[currentIteration] * n.getOutput(currentIteration) / mfn.getOutput(currentIteration);
+			errorResult += n.error * n.getOutput() / mfn.getOutput();
 		}
-		mfn.error[currentIteration] = errorResult;
+		mfn.error = errorResult;
 	}
 
 	@Override
 	public void visit(NormFSNode nfsn) {
 		double errorResult = 0.0D;
 		for(Node n : nfsn.successorNodes) {
-			errorResult += n.error[currentIteration] * n.getOutput(currentIteration) / nfsn.getOutput(currentIteration);
+			errorResult += n.error * n.getOutput() / nfsn.getOutput();
 		}
-		nfsn.error[currentIteration] = errorResult;
+		nfsn.error = errorResult;
 	}
 
 	@Override
 	public void visit(PolynomialNode pn) {
 		double errorResult = 0.0D;
 		for(Node n : pn.successorNodes) {
-			errorResult += n.error[currentIteration];
+			errorResult += n.error;
 		}
-		pn.error[currentIteration] = errorResult;
+		pn.error = errorResult;
 	}
 
 	@Override
 	public void visit(OutputNode on) {
-		on.error[currentIteration] = -(expectedOutput[currentIteration] - on.getOutput(currentIteration));
+		on.error = -(expectedOutput[currentIteration] - on.getOutput());
 	}
 
 }

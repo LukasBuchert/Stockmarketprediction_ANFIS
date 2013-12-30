@@ -176,21 +176,30 @@ public class ANFIS {
 
 // Code for Least Sqare estimation and other stashed things
 
-/*
- * public void computeLeastSquareEstimate() { Layer l3 = this.getLayer(3);
- * double[][] normFS = new double[l3.getNodes().size()][]; int i = 0; for (Node
- * n : l3.getNodes()) { normFS[i][] = ((NormFSNode) n).getNormFS(); i++; }
- * 
- * double[] lseHelperArray = new double[inputSize * normFS.length]; i = 0; for
- * (double nfs : normFS) { for (double in : input) { lseHelperArray[i] = nfs *
- * in; i++; } }
- * 
- * Matrix lseHelperMatrix = new Matrix(lseHelperArray,lseHelperArray.length);
- * Matrix lse =
- * lseHelperMatrix.transpose().times(lseHelperMatrix).inverse().times
- * (lseHelperMatrix.transpose()).times(expectedOutput); consequentParameter =
- * lse.getArray()[0]; }
- */
+
+//	public void computeLeastSquareEstimate() { 
+//		Layer l3 = this.getLayer(3);
+//		double[][] normFS = new double[l3.getNodes().size()][];
+//		int i = 0;
+//		for (Node n : l3.getNodes()) {
+//			normFS[i][] = ((NormFSNode) n).getNormFS();
+//			i++;
+//		}
+//	
+//		double[] lseHelperArray = new double[inputSize * normFS.length];
+//		i = 0;
+//		for	(double nfs : normFS) {
+//			for (double in : input) {
+//				lseHelperArray[i] = nfs * in;
+//				i++;
+//			}
+//		}
+//	
+//		Matrix lseHelperMatrix = new Matrix(lseHelperArray,lseHelperArray.length);
+//		Matrix lse = lseHelperMatrix.transpose().times(lseHelperMatrix).inverse().times(lseHelperMatrix.transpose()).times(expectedOutput);
+//		consequentParameter = lse.getArray()[0];
+//	}
+
 
 /*
  * public double[] getConsequentParameter(int id) { return

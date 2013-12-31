@@ -1,15 +1,15 @@
 package nodes;
 
 public class BackpropagationFunction implements NodeVisitor{
-	private double[] expectedOutput;
-	private int currentIteration;
+	private double input[];
+	private double expectedOutput;
 
-	public void setExpectedOutput(double[] expectedOutput) {
-		this.expectedOutput = expectedOutput;
+	public void setInput(double[] input) {
+		this.input = input;
 	}
-
-	public void setCurrentIteration(int currentIteration) {
-		this.currentIteration = currentIteration;
+	
+	public void setExpectedOutput(double expectedOutput) {
+		this.expectedOutput = expectedOutput;
 	}
 
 	@Override
@@ -25,6 +25,29 @@ public class BackpropagationFunction implements NodeVisitor{
 		}
 		fsn.error = errorResult;
 	}
+	
+	private void partialErrorForABC(MembershipFunctionNode mfn) {
+		//TODO: check paper equations for correctness
+		double errorA = 0.0D;
+		double errorB = 0.0D;
+		double errorC = 0.0D;
+		// error for a
+		if(input[mfn.getVarNumber()] != mfn.c) {
+			errorA = 2 * mfn.b / mfn.a * mfn.getOutput() * (1 - mfn.getOutput());
+		}
+		// error for b
+		if(input[mfn.getVarNumber()] != mfn.c) {
+			errorB = -2 * Math.log(Math.abs((input[mfn.getVarNumber()] - mfn.c) / mfn.a)) * mfn.getOutput() * (1 - mfn.getOutput());
+		}
+		// error for c
+		if(input[mfn.getVarNumber()] != mfn.c) {
+			errorC = 2 * mfn.b / (input[mfn.getVarNumber()] - mfn.c) * mfn.getOutput() * (1 - mfn.getOutput());
+		}
+		
+		mfn.updateErrorSumA(errorA * mfn.error);
+		mfn.updateErrorSumA(errorB * mfn.error);
+		mfn.updateErrorSumA(errorC * mfn.error);
+	}
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
@@ -33,6 +56,8 @@ public class BackpropagationFunction implements NodeVisitor{
 			errorResult += n.error * n.getOutput() / mfn.getOutput();
 		}
 		mfn.error = errorResult;
+		
+		partialErrorForABC(mfn);
 	}
 
 	@Override
@@ -55,7 +80,7 @@ public class BackpropagationFunction implements NodeVisitor{
 
 	@Override
 	public void visit(OutputNode on) {
-		on.error = -(expectedOutput[currentIteration] - on.getOutput());
+		on.error = -(expectedOutput - on.getOutput());
 	}
 
 }

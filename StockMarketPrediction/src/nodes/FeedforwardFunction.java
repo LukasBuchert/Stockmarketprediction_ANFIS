@@ -66,6 +66,9 @@ public class FeedforwardFunction implements NodeVisitor{
 			result += n.getOutput();
 		}
 		on.setOutput(result);
+		
+		// TODO for testing
+		System.out.println(result);
 	}
 
 }

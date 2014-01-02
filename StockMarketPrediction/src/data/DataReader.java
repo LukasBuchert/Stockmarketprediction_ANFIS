@@ -113,6 +113,7 @@ public class DataReader {
                 data[dataPointer][1] = yesterday;
                 yesterday = open;
                 dataPointer++;
+               
             }
         } catch (IOException e) {
 
@@ -163,10 +164,11 @@ public class DataReader {
         int back = 1;
         try {
             BufferedReader in = new BufferedReader(new FileReader("input1.txt"));
-            String zeile = null;
+           String zeile = null;
             while ((zeile = in.readLine()) != null) {
                 back++;
             }
+           
         } catch (IOException e) {
             e.printStackTrace();
         }

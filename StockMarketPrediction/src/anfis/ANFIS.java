@@ -27,11 +27,17 @@ public class ANFIS {
 	public void training (double [] trainigSet){
 		
 		// TODO perhaps using layer instead of using nodes 
-		/**
-		FeedforwardFunction fff = new FeedforwardFunction();
+		
+		FeedforwardFunction fff = new FeedforwardFunction(false);
 		fff.setInput(trainigSet);
-		fff.setCurrentIteration(0);
-		*/
+		
+		layer1.sendVisitorToAllNodes(fff);
+		layer2.sendVisitorToAllNodes(fff);
+		layer3.sendVisitorToAllNodes(fff);
+		layer4.sendVisitorToAllNodes(fff);
+		layer5.sendVisitorToAllNodes(fff);
+		
+		
 	}
 
 	private void initializeLayers() {
@@ -112,7 +118,7 @@ public class ANFIS {
 	private void generateLayer4() {
 
 		for (int i = 0; i < layer3.getNodes().size(); i++) {
-			PolynomialNode pn = new PolynomialNode(Settings.consequentParameter);
+			PolynomialNode pn = new PolynomialNode(Settings.numberOfInputVaribles);
 			layer4.addNode(pn);
 			layer3.getNodes().get(i).addSuccessorLink(pn);
 		}

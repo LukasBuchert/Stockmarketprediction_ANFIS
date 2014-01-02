@@ -1,6 +1,6 @@
 package nodes;
 
-public class OutputNode extends Node implements NodeClient{
+public class OutputNode extends Node {
 
 	public OutputNode() {
 		super();

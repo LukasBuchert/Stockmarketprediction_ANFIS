@@ -6,6 +6,7 @@ import java.util.List;
 
 import nodes.MembershipFunctionNode;
 import nodes.Node;
+import nodes.NodeVisitor;
 
 public class Layer {
 	private List<Node> nodes;
@@ -28,11 +29,11 @@ public class Layer {
 		return nodes;
 	}
 	
-//	public void sendVisitorToAllNodes(NodeVisitor visitor) {
-//		for(Node n : nodes) {
-//			
-//		}
-//	}
+	public void sendVisitorToAllNodes(NodeVisitor visitor) {
+		for(Node n : nodes) {
+			n.accept(visitor);
+		}
+	}
 
 	public MembershipFunctionNode getMFSNode(int varNumber, int setNumber) {
 

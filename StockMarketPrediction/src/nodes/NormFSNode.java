@@ -6,7 +6,7 @@ import java.util.List;
 
 // layer 3
 
-public class NormFSNode extends Node implements NodeClient{
+public class NormFSNode extends Node {
 	public FiringStrengthNode primaryPredecessorNode;
 	private List<Double> savedOutputs;
 	

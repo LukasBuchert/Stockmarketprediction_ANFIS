@@ -2,7 +2,7 @@ package nodes;
 
 // layer 1
 
-public class MembershipFunctionNode extends Node implements NodeClient {
+public class MembershipFunctionNode extends Node {
 	public double a;
 	public double b;
 	public double c;

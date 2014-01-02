@@ -2,7 +2,7 @@ package nodes;
 
 // layer 4
 
-public class PolynomialNode extends Node implements NodeClient{
+public class PolynomialNode extends Node {
 	public double[] consequentParameter;
 	
 	public PolynomialNode(double[] consequentParameter) {

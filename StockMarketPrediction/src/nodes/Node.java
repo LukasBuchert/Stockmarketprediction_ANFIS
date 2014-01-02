@@ -3,7 +3,7 @@ package nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node {
+public abstract class Node implements NodeClient {
 	protected List<Node> predecessorNodes;
 	protected List<Node> successorNodes;
 	protected double output;

@@ -2,7 +2,7 @@ package nodes;
 
 // layer 2
 
-public class FiringStrengthNode extends Node implements NodeClient{
+public class FiringStrengthNode extends Node{
 	public NormFSNode primarySuccessorNode;
 
 	public FiringStrengthNode() {

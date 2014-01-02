@@ -24,20 +24,75 @@ public class ANFIS {
 		generateLayer5();
 	}
 	
-	public void training (double [] trainigSet){
+	public double test(double[][] dataSet, double[] expectedOutput) {
+		FeedforwardFunction fff = new FeedforwardFunction(false);
+		BackpropagationFunction bpf = new BackpropagationFunction(true);
+		
+		for(int i = 0; i < dataSet.length; i++) {
+			fff.setInput(dataSet[i]);
+			bpf.setInput(dataSet[i]);
+			bpf.setExpectedOutput(expectedOutput[i]);
+			
+			layer1.sendVisitorToAllNodes(fff);
+			layer2.sendVisitorToAllNodes(fff);
+			layer3.sendVisitorToAllNodes(fff);
+			layer4.sendVisitorToAllNodes(fff);
+			layer5.sendVisitorToAllNodes(fff);
+			
+			layer5.sendVisitorToAllNodes(bpf);
+		}
+		
+		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
+	}
+	
+	public void training (double[][] trainingSet, double[] expectedOutput){
 		
 		// TODO perhaps using layer instead of using nodes 
 		
-		FeedforwardFunction fff = new FeedforwardFunction(false);
-		fff.setInput(trainigSet);
+		FeedforwardFunction fff = new FeedforwardFunction(true);
+		LeastSquaresEstimate lse = new LeastSquaresEstimate(trainingSet, expectedOutput, layer4.getNodes().size());
+		BackpropagationFunction bpf = new BackpropagationFunction();
+		GradientDecent gd = new GradientDecent();
 		
-		layer1.sendVisitorToAllNodes(fff);
-		layer2.sendVisitorToAllNodes(fff);
-		layer3.sendVisitorToAllNodes(fff);
-		layer4.sendVisitorToAllNodes(fff);
-		layer5.sendVisitorToAllNodes(fff);
+		//Train consequent parameters (Polynomial Node)
+		for(double[] input : trainingSet) {
+			fff.setInput(input);
+			layer1.sendVisitorToAllNodes(fff);
+			layer2.sendVisitorToAllNodes(fff);
+			layer3.sendVisitorToAllNodes(fff);
+			layer4.sendVisitorToAllNodes(fff);
+		}
 		
+		layer3.sendVisitorToAllNodes(lse);
+		layer4.sendVisitorToAllNodes(lse);
 		
+		// Consequent parameters trained!
+		
+		// Train premise parameters (Membership Function Node)
+		fff.setSaveNormFSOutput(false);
+		
+		for(int i = 0; i < trainingSet.length; i++) {
+			fff.setInput(trainingSet[i]);
+			bpf.setInput(trainingSet[i]);
+			bpf.setExpectedOutput(expectedOutput[i]);
+			
+			layer1.sendVisitorToAllNodes(fff);
+			layer2.sendVisitorToAllNodes(fff);
+			layer3.sendVisitorToAllNodes(fff);
+			layer4.sendVisitorToAllNodes(fff);
+			layer5.sendVisitorToAllNodes(fff);
+			
+			layer5.sendVisitorToAllNodes(bpf);
+			layer4.sendVisitorToAllNodes(bpf);
+			layer3.sendVisitorToAllNodes(bpf);
+			layer2.sendVisitorToAllNodes(bpf);
+			layer1.sendVisitorToAllNodes(bpf);
+		}
+		
+		gd.setLearningRate(0.1D);
+		
+		layer1.sendVisitorToAllNodes(gd);
+		//Premise parameters trained!
 	}
 
 	private void initializeLayers() {

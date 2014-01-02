@@ -3,7 +3,7 @@ package nodes;
 public class GradientDecent implements NodeVisitor {
 	private double learningRate;
 	
-	public void setExpectedOutput(double learningRate) {
+	public void setLearningRate(double learningRate) {
 		this.learningRate = learningRate;
 	}
 	

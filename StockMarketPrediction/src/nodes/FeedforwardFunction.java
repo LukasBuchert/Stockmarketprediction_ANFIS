@@ -54,7 +54,6 @@ public class FeedforwardFunction implements NodeVisitor{
 			polyResult += input[i] * pn.consequentParameter[i];
 		}
 		//i++; //TODO: check if computed correctly
-		// i is already = input length and pointing on last field of consequent Parameter
 		polyResult += pn.consequentParameter[i];
 		double result = pn.predecessorNodes.get(0).getOutput() * polyResult;
 		pn.setOutput(result);

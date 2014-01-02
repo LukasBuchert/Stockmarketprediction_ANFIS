@@ -46,7 +46,7 @@ public class Main {
 		trainingData[4] = data [0][5];
 		double expectedOutput = data[0][0];
 		
-		anfis.training(trainingData);
+		//anfis.training(trainingData);
 		
 		System.out.println("Finished! Expected Output was: " + expectedOutput);
 

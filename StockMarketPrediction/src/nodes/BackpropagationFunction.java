@@ -3,6 +3,15 @@ package nodes;
 public class BackpropagationFunction implements NodeVisitor{
 	private double input[];
 	private double expectedOutput;
+	private boolean sumUpOutputError;
+	
+	public BackpropagationFunction() {
+		sumUpOutputError = false;
+	}
+	
+	public BackpropagationFunction(boolean sumUpOutputError) {
+		this.sumUpOutputError = sumUpOutputError;
+	}
 
 	public void setInput(double[] input) {
 		this.input = input;
@@ -10,6 +19,10 @@ public class BackpropagationFunction implements NodeVisitor{
 	
 	public void setExpectedOutput(double expectedOutput) {
 		this.expectedOutput = expectedOutput;
+	}
+	
+	public void setSumUpOutputError(boolean sumUpOutputError) {
+		this.sumUpOutputError = sumUpOutputError;
 	}
 
 	@Override
@@ -81,6 +94,9 @@ public class BackpropagationFunction implements NodeVisitor{
 	@Override
 	public void visit(OutputNode on) {
 		on.error = -(expectedOutput - on.getOutput());
+		if(sumUpOutputError) {
+			on.updateSumOfError((expectedOutput - on.getOutput()) * (expectedOutput - on.getOutput()));
+		}
 	}
 
 }

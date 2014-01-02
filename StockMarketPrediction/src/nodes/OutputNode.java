@@ -1,7 +1,7 @@
 package nodes;
 
 public class OutputNode extends Node {
-	private double sumOfError;
+	protected double sumOfError;
 
 	public OutputNode() {
 		super();

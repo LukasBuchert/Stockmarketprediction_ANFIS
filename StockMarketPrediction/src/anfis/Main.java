@@ -38,17 +38,48 @@ public class Main {
 		
 		System.out.println("--generation finished");
 		
-		double [] trainingData = new double [5];
+		/*double [] trainingData = new double [5];
 		trainingData[0] = data [0][1];
 		trainingData[1] = data [0][2];
 		trainingData[2] = data [0][3];
 		trainingData[3] = data [0][4];
 		trainingData[4] = data [0][5];
-		double expectedOutput = data[0][0];
+		double expectedOutput = data[0][0]; */
 		
 		//anfis.training(trainingData);
 		
-		System.out.println("Finished! Expected Output was: " + expectedOutput);
+		//System.out.println("Finished! Expected Output was: " + expectedOutput);
+		
+		
+		// create the training data
+		int trainigDataLength = 200;
+		
+		double [][] trainingData = new double [trainigDataLength][5];
+		double [] expectedOutput = new double [trainigDataLength];
+		
+		for (int i = 0; i < trainigDataLength; i++){
+			expectedOutput [i] = data [i][0];
+			trainingData[i][0] = data [i][1];
+			trainingData[i][1] = data [i][2];
+			trainingData[i][2] = data [i][3];
+			trainingData[i][3] = data [i][4];
+			trainingData[i][4] = data [i][5];
+			
+		}
+		
+		
+		// Ausführen von Anfis
+		
+		double errorSum;
+		
+		errorSum = anfis.test(trainingData, expectedOutput);
+		
+		System.out.println("Anfängliche Fehlerrate: " + errorSum);
+		
+		errorSum = anfis.training(trainingData, expectedOutput);
+		
+		System.out.println("Fehlerrate nach 1. Training: " + errorSum);
+		
 
 	}
 

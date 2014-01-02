@@ -45,13 +45,13 @@ public class ANFIS {
 		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
 	}
 	
-	public void training (double[][] trainingSet, double[] expectedOutput){
+	public double training (double[][] trainingSet, double[] expectedOutput){
 		
 		// TODO perhaps using layer instead of using nodes 
 		
 		FeedforwardFunction fff = new FeedforwardFunction(true);
 		LeastSquaresEstimate lse = new LeastSquaresEstimate(trainingSet, expectedOutput, layer4.getNodes().size());
-		BackpropagationFunction bpf = new BackpropagationFunction();
+		BackpropagationFunction bpf = new BackpropagationFunction(true);
 		GradientDecent gd = new GradientDecent();
 		
 		//Train consequent parameters (Polynomial Node)
@@ -93,6 +93,8 @@ public class ANFIS {
 		
 		layer1.sendVisitorToAllNodes(gd);
 		//Premise parameters trained!
+		
+		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
 	}
 
 	private void initializeLayers() {

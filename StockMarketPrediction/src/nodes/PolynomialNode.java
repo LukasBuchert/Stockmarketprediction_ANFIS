@@ -26,14 +26,17 @@ public class PolynomialNode extends Node {
 	
 	public void generateRandomConsequentParameter (int length){
 		consequentParameter = new double [length];
-		for (double c : consequentParameter){
-			c = getRandom();
+		for (int i = 0; i < consequentParameter.length; i++){
+			int back = getRandom();
+			consequentParameter[i] = (double) back;
 		}
 	}
 	
-	public double getRandom(){
-		double back = (int) Math.random() * 10 - 5;
-		if (back == 0.0){
+	public int getRandom(){
+		int back = (int) (Math.random() * 10);
+		back -= 5;
+		
+		if (back == 0){
 			back = getRandom();
 		}
 		return back;

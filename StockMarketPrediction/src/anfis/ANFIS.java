@@ -68,6 +68,7 @@ public class ANFIS {
 
 		for (int i = 0; i < numberOfNodes; i++) {
 			FiringStrengthNode fsn = new FiringStrengthNode();
+			layer2.addNode(fsn);
 
 			for (int j = 0; j < counter.length; j++) {
 				fsn.addPredecessorLink(this.searchMembersphipFunctionNode(
@@ -118,7 +119,7 @@ public class ANFIS {
 	private void generateLayer4() {
 
 		for (int i = 0; i < layer3.getNodes().size(); i++) {
-			PolynomialNode pn = new PolynomialNode(Settings.numberOfInputVaribles);
+			PolynomialNode pn = new PolynomialNode(Settings.numberOfInputVaribles + 1);
 			layer4.addNode(pn);
 			layer3.getNodes().get(i).addSuccessorLink(pn);
 		}

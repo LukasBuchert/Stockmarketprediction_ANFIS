@@ -89,11 +89,12 @@ public class ANFIS {
 			layer1.sendVisitorToAllNodes(bpf);
 		}
 		
-		gd.setLearningRate(0.1D);
+		gd.setLearningRate(0.0001D);
 		
 		layer1.sendVisitorToAllNodes(gd);
 		//Premise parameters trained!
 		
+		//TODO: this output has not been calculated with updated parameters
 		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
 	}
 

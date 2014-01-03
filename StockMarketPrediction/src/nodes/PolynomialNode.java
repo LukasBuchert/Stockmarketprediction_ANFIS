@@ -4,6 +4,7 @@ package nodes;
 
 public class PolynomialNode extends Node {
 	public double[] consequentParameter;
+	public double polyResult;
 	
 	public PolynomialNode(double[] consequentParameter) {
 		super();

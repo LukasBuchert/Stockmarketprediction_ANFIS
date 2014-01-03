@@ -52,7 +52,7 @@ public class Main {
 		
 		
 		// create the training data
-		int trainigDataLength = 10;
+		int trainigDataLength = 50;
 		
 		double [][] trainingData = new double [trainigDataLength][5];
 		double [] expectedOutput = new double [trainigDataLength];
@@ -77,8 +77,17 @@ public class Main {
 		System.out.println("Anfaengliche Fehlerrate: " + errorSum);
 		
 		errorSum = anfis.training(trainingData, expectedOutput);
+		System.out.println("Fehlerrate nach 1. Training (nur Consequent Parameter): " + errorSum);
+		errorSum = anfis.test(trainingData, expectedOutput);
 		
 		System.out.println("Fehlerrate nach 1. Training: " + errorSum);
+		
+		
+//		errorSum = anfis.training(trainingData, expectedOutput);
+//		System.out.println("Fehlerrate nach 2. Training (nur Consequent Parameter): " + errorSum);
+//		errorSum = anfis.test(trainingData, expectedOutput);
+//		
+//		System.out.println("Fehlerrate nach 2. Training: " + errorSum);
 		
 
 	}

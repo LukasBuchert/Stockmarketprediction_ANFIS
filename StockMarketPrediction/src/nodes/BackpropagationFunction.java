@@ -1,5 +1,6 @@
 package nodes;
 
+
 public class BackpropagationFunction implements NodeVisitor{
 	private double input[];
 	private double expectedOutput;
@@ -45,28 +46,28 @@ public class BackpropagationFunction implements NodeVisitor{
 		double errorB = 0.0D;
 		double errorC = 0.0D;
 		// error for a
-		if(input[mfn.getVarNumber()] != mfn.c) {
+		if(input[mfn.getVarNumber() - 1] != mfn.c) {
 			errorA = 2 * mfn.b / mfn.a * mfn.getOutput() * (1 - mfn.getOutput());
 		}
 		// error for b
-		if(input[mfn.getVarNumber()] != mfn.c) {
-			errorB = -2 * Math.log(Math.abs((input[mfn.getVarNumber()] - mfn.c) / mfn.a)) * mfn.getOutput() * (1 - mfn.getOutput());
+		if(input[mfn.getVarNumber() - 1] != mfn.c) {
+			errorB = -2 * Math.log(Math.abs((input[mfn.getVarNumber() - 1] - mfn.c) / mfn.a)) * mfn.getOutput() * (1 - mfn.getOutput());
 		}
 		// error for c
-		if(input[mfn.getVarNumber()] != mfn.c) {
-			errorC = 2 * mfn.b / (input[mfn.getVarNumber()] - mfn.c) * mfn.getOutput() * (1 - mfn.getOutput());
+		if(input[mfn.getVarNumber() - 1] != mfn.c) {
+			errorC = 2 * mfn.b / (input[mfn.getVarNumber() - 1] - mfn.c) * mfn.getOutput() * (1 - mfn.getOutput());
 		}
 		
 		mfn.updateErrorSumA(errorA * mfn.error);
-		mfn.updateErrorSumA(errorB * mfn.error);
-		mfn.updateErrorSumA(errorC * mfn.error);
+		mfn.updateErrorSumB(errorB * mfn.error);
+		mfn.updateErrorSumC(errorC * mfn.error);
 	}
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
 		double errorResult = 0.0D;
 		for(Node n : mfn.successorNodes) {
-			errorResult += n.error * n.getOutput() / mfn.getOutput();
+			errorResult += n.error * ((FiringStrengthNode)n).computeFiringStrength(mfn);
 		}
 		mfn.error = errorResult;
 		
@@ -77,7 +78,7 @@ public class BackpropagationFunction implements NodeVisitor{
 	public void visit(NormFSNode nfsn) {
 		double errorResult = 0.0D;
 		for(Node n : nfsn.successorNodes) {
-			errorResult += n.error * n.getOutput() / nfsn.getOutput();
+			errorResult += n.error * ((PolynomialNode)n).polyResult;
 		}
 		nfsn.error = errorResult;
 	}

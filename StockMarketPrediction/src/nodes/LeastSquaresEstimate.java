@@ -52,10 +52,12 @@ public class LeastSquaresEstimate implements NodeVisitor{
 		Matrix helperMatrix = new Matrix(helperArray);
 		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
 
-		System.out.println("This takes very long on large data atm! I am working on it :) Maybe reduce the data or network size if it doesn't continue");
+		System.out.println("If matrix is singular, the LSE can't be calculated with matrices");
+		System.out.println("There is another way of doing it though... not yet implemented");
 		
-		Matrix lse = helperMatrix.times(helperMatrix.transpose()).inverse().times(helperMatrix).times(expectedOutputMatrix.transpose());
-		consequentParameters = lse.getArray()[0];
+		Matrix lse = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).transpose().times(expectedOutputMatrix.transpose());	
+		
+		consequentParameters = lse.transpose().getArray()[0];
 		
 		isCalculated = true;
 		index = 0;
@@ -67,8 +69,8 @@ public class LeastSquaresEstimate implements NodeVisitor{
 			calculateLeastSquareEstimate();
 		}
 		
-		for(int i = index; i < index + input[0].length; i++) {
-			pn.consequentParameter[i] = consequentParameters[i];
+		for(int i = index; i < index + input[0].length + 1; i++) {
+			pn.consequentParameter[i % (input[0].length + 1)] = consequentParameters[i];
 		}
 		
 		index += input[0].length;

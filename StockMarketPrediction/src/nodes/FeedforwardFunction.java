@@ -1,7 +1,5 @@
 package nodes;
 
-import java.util.Iterator;
-
 public class FeedforwardFunction implements NodeVisitor{
 	private double[] input;
 	private boolean saveNormFSOutput;
@@ -17,21 +15,10 @@ public class FeedforwardFunction implements NodeVisitor{
 	public void setSaveNormFSOutput(boolean saveNormFSOutput) {
 		this.saveNormFSOutput = saveNormFSOutput;
 	}
-
-	// firing strength function for FiringStrengthNode
-	private double firingStrengthFunction(double value1, double value2) {
-		//return Math.min(value1, value2);
-		return value1 * value2;
-	}
 	
 	@Override
 	public void visit(FiringStrengthNode fsn) {
-		Iterator<Node> predNodes = fsn.predecessorNodes.iterator();
-		double result = predNodes.next().getOutput();
-		while(predNodes.hasNext()) {
-			result = firingStrengthFunction(result, predNodes.next().getOutput());
-		}
-		fsn.setOutput(result);
+		fsn.setOutput(fsn.computeFiringStrength());
 	}
 
 	@Override
@@ -55,6 +42,7 @@ public class FeedforwardFunction implements NodeVisitor{
 		}
 		//i++; //TODO: check if computed correctly
 		polyResult += pn.consequentParameter[i];
+		pn.polyResult = polyResult;
 		double result = pn.predecessorNodes.get(0).getOutput() * polyResult;
 		pn.setOutput(result);
 	}

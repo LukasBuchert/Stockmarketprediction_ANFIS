@@ -14,6 +14,10 @@ public class GradientDecent implements NodeVisitor {
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
+		//TODO: problem with mfn output = 1
+//		System.out.println("A: " + mfn.getErrorSumA(false));
+//		System.out.println("B: " + mfn.getErrorSumB(false));
+//		System.out.println("C: " + mfn.getErrorSumC(false));
 		mfn.a -= learningRate * mfn.getErrorSumA(true);
 		mfn.b -= learningRate * mfn.getErrorSumB(true);
 		mfn.c -= learningRate * mfn.getErrorSumC(true);

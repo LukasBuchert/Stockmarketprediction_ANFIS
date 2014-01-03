@@ -134,11 +134,13 @@ public class ANFIS {
 
 			countUpArray(counter, Settings.numberOfShapes);
 		}
+		
+		
 
 	}
 
 	private void countUpArray(int[] input, int limit) {
-		for (int i = input.length - 1; i <= 0; i--) {
+		for (int i = input.length - 1; i >= 0; i--) {
 
 			input[i]++;
 			if (input[i] == limit) {

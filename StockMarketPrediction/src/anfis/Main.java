@@ -52,7 +52,7 @@ public class Main {
 		
 		
 		// create the training data
-		int trainigDataLength = 200;
+		int trainigDataLength = 10;
 		
 		double [][] trainingData = new double [trainigDataLength][5];
 		double [] expectedOutput = new double [trainigDataLength];
@@ -68,13 +68,13 @@ public class Main {
 		}
 		
 		
-		// Ausführen von Anfis
+		// Ausfuehren von Anfis
 		
 		double errorSum;
 		
 		errorSum = anfis.test(trainingData, expectedOutput);
 		
-		System.out.println("Anfängliche Fehlerrate: " + errorSum);
+		System.out.println("Anfaengliche Fehlerrate: " + errorSum);
 		
 		errorSum = anfis.training(trainingData, expectedOutput);
 		

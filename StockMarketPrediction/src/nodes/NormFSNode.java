@@ -18,7 +18,7 @@ public class NormFSNode extends Node {
 	}
 	
 	public double computeSumOfFiringStrengths() {
-		double result = 0;
+		double result = 0.0D;
 		for(Node n : predecessorNodes) {
 			result += n.getOutput();
 		}

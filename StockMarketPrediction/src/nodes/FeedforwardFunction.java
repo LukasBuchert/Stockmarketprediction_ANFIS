@@ -32,18 +32,21 @@ public class FeedforwardFunction implements NodeVisitor{
 			result = firingStrengthFunction(result, predNodes.next().getOutput());
 		}
 		fsn.setOutput(result);
+		System.out.println("Fire Out: " + result);
 	}
 
 	@Override
 	public void visit(MembershipFunctionNode mfn) {
 		double result = 1.0D / (1.0D + Math.pow(Math.pow((input[mfn.getVarNumber() - 1] - mfn.c) / mfn.a, 2.0D), mfn.b));
 		mfn.setOutput(result);
+		System.out.println("Mem Out: " + result);
 	}
 
 	@Override
 	public void visit(NormFSNode nfsn) {
 		double result = nfsn.primaryPredecessorNode.getOutput() / nfsn.computeSumOfFiringStrengths();
 		nfsn.setOutput(result, saveNormFSOutput);
+		System.out.println("NormFire Out: " + result);
 	}
 
 	@Override
@@ -66,7 +69,6 @@ public class FeedforwardFunction implements NodeVisitor{
 			result += n.getOutput();
 		}
 		on.setOutput(result);
-		
 	}
 
 }

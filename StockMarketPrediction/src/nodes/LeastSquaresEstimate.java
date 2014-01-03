@@ -13,7 +13,7 @@ public class LeastSquaresEstimate implements NodeVisitor{
 	public LeastSquaresEstimate(double[][] input, double[] expectedOutput, int numberOfNormFSNodes) {
 		this.input = input;
 		this.expectedOutput = expectedOutput;
-		combinedOutputs = new double[numberOfNormFSNodes * input.length][];
+		combinedOutputs = new double[numberOfNormFSNodes * (input[0].length + 1)][];
 		isCalculated = false;
 		index = 0;
 	}
@@ -30,24 +30,31 @@ public class LeastSquaresEstimate implements NodeVisitor{
 
 	@Override
 	public void visit(NormFSNode nfsn) {
-		for(int i = 0; i < input.length; i++) {
+		for(int i = 0; i < input[0].length + 1; i++) {
 			combinedOutputs[index] = nfsn.getSavedOutputs(true);
 			index++;
 		}
 	}
 	
 	private void calculateLeastSquareEstimate() {
-		double[][] helperArray = new double[combinedOutputs.length][];
+		double[][] helperArray = new double[combinedOutputs.length][combinedOutputs[0].length];
 		
 		for(int i = 0; i < combinedOutputs.length; i++) {
 			for(int j = 0; j < combinedOutputs[i].length; j++) {
-				helperArray[i][j] = combinedOutputs[i][j] * input[j][i%input.length];
+				if(i%(input[0].length + 1) == input[0].length) {
+					helperArray[i][j] = combinedOutputs[i][j];
+				} else {
+					helperArray[i][j] = combinedOutputs[i][j] * input[j][i%(input[0].length + 1)];
+				}
 			}
 		}
 		
 		Matrix helperMatrix = new Matrix(helperArray);
 		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
-		Matrix lse = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).times(expectedOutputMatrix);
+
+		System.out.println("This takes very long on large data atm! I am working on it :) Maybe reduce the data or network size if it doesn't continue");
+		
+		Matrix lse = helperMatrix.times(helperMatrix.transpose()).inverse().times(helperMatrix).times(expectedOutputMatrix.transpose());
 		consequentParameters = lse.getArray()[0];
 		
 		isCalculated = true;

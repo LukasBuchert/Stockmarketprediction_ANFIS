@@ -168,7 +168,7 @@ public class ANFIS {
 			layer3.addNode(n);
 
 			for (int j = 0; j < layer2.getNodes().size(); j++) {
-				layer2.getNodes().get(i).addSuccessorLink(n);
+				layer2.getNodes().get(j).addSuccessorLink(n);
 			}
 		}
 	}

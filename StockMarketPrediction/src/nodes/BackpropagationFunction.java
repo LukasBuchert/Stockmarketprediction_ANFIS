@@ -97,7 +97,7 @@ public class BackpropagationFunction implements NodeVisitor{
 		on.error = -(expectedOutput - on.getOutput());
 		if(sumUpOutputError) {
 			on.updateSumOfError(Math.abs(expectedOutput - on.getOutput()));
-			System.out.println("New output is:" + on.sumOfError);
+			//System.out.println("New output is:" + on.sumOfError);
 		}
 	}
 

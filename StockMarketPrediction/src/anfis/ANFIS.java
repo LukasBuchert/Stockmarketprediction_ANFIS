@@ -1,5 +1,8 @@
 package anfis;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+
 import nodes.*;
 import util.Settings;
 
@@ -45,14 +48,12 @@ public class ANFIS {
 		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
 	}
 	
-	public double training (double[][] trainingSet, double[] expectedOutput){
+	public double trainConsequent (double[][] trainingSet, double[] expectedOutput){
 		
 		// TODO perhaps using layer instead of using nodes 
 		
 		FeedforwardFunction fff = new FeedforwardFunction(true);
 		LeastSquaresEstimate lse = new LeastSquaresEstimate(trainingSet, expectedOutput, layer4.getNodes().size());
-		BackpropagationFunction bpf = new BackpropagationFunction(true);
-		GradientDecent gd = new GradientDecent();
 		
 		//Train consequent parameters (Polynomial Node)
 		for(double[] input : trainingSet) {
@@ -68,31 +69,58 @@ public class ANFIS {
 		
 		// Consequent parameters trained!
 		
+		//TODO: always 0
+		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
+	}
+	
+	public double trainPremise (double[][] trainingSet, double[] expectedOutput){
+		Logger logger = new Logger();
+		FeedforwardFunction fff = new FeedforwardFunction(false);
+		BackpropagationFunction bpf = new BackpropagationFunction(true);
+		GradientDecent gd = new GradientDecent();
+		gd.setLearningRate(0.1D);
+		
 		// Train premise parameters (Membership Function Node)
-		fff.setSaveNormFSOutput(false);
-		
-		for(int i = 0; i < trainingSet.length; i++) {
-			fff.setInput(trainingSet[i]);
-			bpf.setInput(trainingSet[i]);
-			bpf.setExpectedOutput(expectedOutput[i]);
+		for(int j = 0; j < 10000; j++) {
+			for(int i = 0; i < trainingSet.length; i++) {
+				fff.setInput(trainingSet[i]);
+				bpf.setInput(trainingSet[i]);
+				bpf.setExpectedOutput(expectedOutput[i]);
+				
+				layer1.sendVisitorToAllNodes(fff);
+				layer2.sendVisitorToAllNodes(fff);
+				layer3.sendVisitorToAllNodes(fff);
+				layer4.sendVisitorToAllNodes(fff);
+				layer5.sendVisitorToAllNodes(fff);
+				
+				layer5.sendVisitorToAllNodes(bpf);
+				layer4.sendVisitorToAllNodes(bpf);
+				layer3.sendVisitorToAllNodes(bpf);
+				layer2.sendVisitorToAllNodes(bpf);
+				layer1.sendVisitorToAllNodes(bpf);
+			}
 			
-			layer1.sendVisitorToAllNodes(fff);
-			layer2.sendVisitorToAllNodes(fff);
-			layer3.sendVisitorToAllNodes(fff);
-			layer4.sendVisitorToAllNodes(fff);
-			layer5.sendVisitorToAllNodes(fff);
+			logger.append("Iteration " + j + "\n\n");
+			layer1.sendVisitorToAllNodes(logger);
 			
-			layer5.sendVisitorToAllNodes(bpf);
-			layer4.sendVisitorToAllNodes(bpf);
-			layer3.sendVisitorToAllNodes(bpf);
-			layer2.sendVisitorToAllNodes(bpf);
-			layer1.sendVisitorToAllNodes(bpf);
+			layer1.sendVisitorToAllNodes(gd);
+			
+			layer1.sendVisitorToAllNodes(logger);
+			logger.append("Overall Error: " + ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false) + "\n\n");
+			logger.append("\n");
+			//System.out.println(((OutputNode) layer5.getNodes().get(0)).getSumOfError(true));
 		}
-		
-		gd.setLearningRate(0.0001D);
-		
-		layer1.sendVisitorToAllNodes(gd);
 		//Premise parameters trained!
+		
+		try {
+			logger.write();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//TODO: this output has not been calculated with updated parameters
 		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);

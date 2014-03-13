@@ -16,6 +16,7 @@ public class ANFIS {
 	
 	//backpropagation stops when change is less than threshold
 	private double threshold = Double.valueOf("1E-10");
+	private double minIterations = 100;
 
 	public ANFIS() {
 
@@ -120,7 +121,7 @@ public class ANFIS {
 			
 			newError = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false);
 			//if change in error is less than threshold -> stop backpropagation learning
-			if(Math.abs(newError - lastError) < threshold) {
+			if(j > minIterations && Math.abs(newError - lastError) < threshold) {
 				break;
 			}
 						
@@ -133,10 +134,10 @@ public class ANFIS {
 				alternatingSignCount++;
 				consecutiveSignCount = 0;
 			}
-			if(consecutiveSignCount == 4) { //increase k by 10% if 4 consecutive moves in same direction
+			if(consecutiveSignCount == 3) { //increase k by 10% if 4 consecutive moves in same direction
 				k = k * 1.1D;
 				consecutiveSignCount = 0;
-			} else if (alternatingSignCount == 4) { //decrease k by 10% if last 4 moves have alternating directions
+			} else if (alternatingSignCount == 3) { //decrease k by 10% if last 4 moves have alternating directions
 				k = k * 0.9D;
 				alternatingSignCount = 0;
 			}
@@ -151,7 +152,7 @@ public class ANFIS {
 			layer1.sendVisitorToAllNodes(logger);
 			logger.append("Overall Error: " + newError + "\n\n");
 			logger.append("\n");
-			System.out.println(((OutputNode) layer5.getNodes().get(0)).getSumOfError(true));
+			((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
 		}
 		//Premise parameters trained!
 		
@@ -282,33 +283,45 @@ public class ANFIS {
 	 *            - slope of the bell function (default could be 2)
 	 * @return returns a array of MembershipFunctionNode with length = shapes
 	 */
+//	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
+//			double min, double max, int shapes, double slope) {
+//
+//		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
+//
+//		if (shapes == 1) {
+//
+//			double a = (max - min) / 2;
+//			double b = slope * a;
+//			double c = min + a;
+//
+//			back[0] = new MembershipFunctionNode(a, b, c, varNumber, 1);
+//
+//		} else {
+//
+//			double a = (max - min) / (2 * shapes - 2);
+//			double b = 2 * a;
+//			double c = min - 2 * a;
+//
+//			for (int i = 0; i < shapes; i++) {
+//				c = c + 2 * a;
+//				back[i] = new MembershipFunctionNode(a, b, c, varNumber, i + 1);
+//
+//			}
+//
+//		}
+//
+//		return back;
+//	}
+	
 	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
 			double min, double max, int shapes, double slope) {
-
 		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
-
-		if (shapes == 1) {
-
-			double a = (max - min) / 2;
-			double b = slope * a;
-			double c = min + a;
-
-			back[0] = new MembershipFunctionNode(a, b, c, varNumber, 1);
-
-		} else {
-
-			double a = (max - min) / (2 * shapes - 2);
-			double b = 2 * a;
-			double c = min - 2 * a;
-
-			for (int i = 0; i < shapes; i++) {
-				c = c + 2 * a;
-				back[i] = new MembershipFunctionNode(a, b, c, varNumber, i + 1);
-
-			}
-
-		}
-
+		
+		double a = 0.0000001D;
+		double b = 200D;
+		back[0] = new MembershipFunctionNode(a,b,0.05D,varNumber,1);
+		back[1] = new MembershipFunctionNode(a,b,0.95D,varNumber,2);
+		
 		return back;
 	}
 

@@ -3,8 +3,8 @@ package nodes;
 public class GradientDecent implements NodeVisitor {
 	private double learningRate;
 	
-	public void setLearningRate(double learningRate) {
-		this.learningRate = learningRate;
+	public void setLearningRate(double k) {
+		this.learningRate = k/Math.sqrt(MembershipFunctionNode.getOverallSquaredErrorSum());
 	}
 	
 	@Override

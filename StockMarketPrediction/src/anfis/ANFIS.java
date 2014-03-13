@@ -10,6 +10,12 @@ public class ANFIS {
 
 	// all layers of an anfis network;
 	private Layer layer1, layer2, layer3, layer4, layer5;
+	
+	//parameter for learning rate
+	private double k = 1.0D;
+	
+	//backpropagation stops when change is less than threshold
+	private double threshold = Double.valueOf("1E-10");
 
 	public ANFIS() {
 
@@ -41,6 +47,8 @@ public class ANFIS {
 			layer3.sendVisitorToAllNodes(fff);
 			layer4.sendVisitorToAllNodes(fff);
 			layer5.sendVisitorToAllNodes(fff);
+			
+			System.out.println("Input: "+ dataSet[i][0] + " " + dataSet[i][1] + " Output: " + layer5.getNodes().get(0).getOutput());
 			
 			layer5.sendVisitorToAllNodes(bpf);
 		}
@@ -77,11 +85,17 @@ public class ANFIS {
 		Logger logger = new Logger();
 		FeedforwardFunction fff = new FeedforwardFunction(false);
 		BackpropagationFunction bpf = new BackpropagationFunction(true);
+		LearningRateSum lrs = new LearningRateSum();
 		GradientDecent gd = new GradientDecent();
-		gd.setLearningRate(0.1D);
 		
+		//variables for adjusting k (learning rate)
+		double lastError = 0.0D, newError = 0.0D, sign, lastSign = 0.0D;
+		int consecutiveSignCount = 0, alternatingSignCount = 0;
+		
+		int j = 0;
 		// Train premise parameters (Membership Function Node)
-		for(int j = 0; j < 10000; j++) {
+		while(true) {
+			j++;
 			for(int i = 0; i < trainingSet.length; i++) {
 				fff.setInput(trainingSet[i]);
 				bpf.setInput(trainingSet[i]);
@@ -103,14 +117,45 @@ public class ANFIS {
 			logger.append("Iteration " + j + "\n\n");
 			layer1.sendVisitorToAllNodes(logger);
 			
+			
+			newError = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false);
+			//if change in error is less than threshold -> stop backpropagation learning
+			if(Math.abs(newError - lastError) < threshold) {
+				break;
+			}
+						
+			//adjusting k for learning rate
+			sign = Math.signum(newError - lastError);
+			if(lastSign == sign) {
+				consecutiveSignCount++;
+				alternatingSignCount = 0;
+			} else if(lastSign != sign) {
+				alternatingSignCount++;
+				consecutiveSignCount = 0;
+			}
+			if(consecutiveSignCount == 4) { //increase k by 10% if 4 consecutive moves in same direction
+				k = k * 1.1D;
+				consecutiveSignCount = 0;
+			} else if (alternatingSignCount == 4) { //decrease k by 10% if last 4 moves have alternating directions
+				k = k * 0.9D;
+				alternatingSignCount = 0;
+			}
+			lastSign = sign;
+			lastError = newError;
+			
+			lrs.reset();
+			layer1.sendVisitorToAllNodes(lrs);
+			gd.setLearningRate(k);
 			layer1.sendVisitorToAllNodes(gd);
 			
 			layer1.sendVisitorToAllNodes(logger);
-			logger.append("Overall Error: " + ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false) + "\n\n");
+			logger.append("Overall Error: " + newError + "\n\n");
 			logger.append("\n");
-			//System.out.println(((OutputNode) layer5.getNodes().get(0)).getSumOfError(true));
+			System.out.println(((OutputNode) layer5.getNodes().get(0)).getSumOfError(true));
 		}
 		//Premise parameters trained!
+		
+		System.out.println("Iterations: " + j);
 		
 		try {
 			logger.write();

@@ -13,6 +13,8 @@ public class MembershipFunctionNode extends Node {
 	private double errorSumA;
 	private double errorSumB;
 	private double errorSumC;
+	
+	private static double overallSquaredErrorSum;
 
 	public MembershipFunctionNode(double a, double b, double c, int varNumber,
 			int setNumber) {
@@ -91,6 +93,14 @@ public class MembershipFunctionNode extends Node {
 
 	public void updateErrorSumC(double errorC) {
 		this.errorSumC += errorC;
+	}
+
+	public static double getOverallSquaredErrorSum() {
+		return overallSquaredErrorSum;
+	}
+
+	public static void setOverallSquaredErrorSum(double overallSquaredErrorSum) {
+		MembershipFunctionNode.overallSquaredErrorSum = overallSquaredErrorSum;
 	}
 
 }

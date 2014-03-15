@@ -10,11 +10,12 @@ public class LeastSquaresEstimate implements NodeVisitor{
 	private boolean isCalculated;
 	private int index;
 	private final double LARGE_NUMBER = 8147483648D;
+	//8147483648D
 	
 	public LeastSquaresEstimate(double[][] input, double[] expectedOutput, int numberOfNormFSNodes) {
 		this.input = input;
 		this.expectedOutput = expectedOutput;
-		combinedOutputs = new double[numberOfNormFSNodes * (input[0].length + 1)][];
+		combinedOutputs = new double[numberOfNormFSNodes][];
 		isCalculated = false;
 		index = 0;
 	}
@@ -31,53 +32,55 @@ public class LeastSquaresEstimate implements NodeVisitor{
 
 	@Override
 	public void visit(NormFSNode nfsn) {
-		for(int i = 0; i < input[0].length + 1; i++) {
-			combinedOutputs[index] = nfsn.getSavedOutputs(true);
-			index++;
-		}
+		combinedOutputs[index] = nfsn.getSavedOutputs(true);
+		index++;
 	}
 	
-//	private void calculateLeastSquareEstimate() {
-//		double[][] helperArray = new double[combinedOutputs.length][combinedOutputs[0].length];
-//		
-//		for(int i = 0; i < combinedOutputs.length; i++) {
-//			for(int j = 0; j < combinedOutputs[i].length; j++) {
-//				if(i%(input[0].length + 1) == input[0].length) {
-//					helperArray[i][j] = combinedOutputs[i][j];
-//				} else {
-//					helperArray[i][j] = combinedOutputs[i][j] * input[j][i%(input[0].length + 1)];
-//				}
-//			}
-//		}
-//		
-//		Matrix helperMatrix = new Matrix(helperArray);
-//		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
-//
-//		System.out.println("If matrix is singular, the LSE can't be calculated with matrices");
-//		System.out.println("There is another way of doing it though... not yet implemented");
-//		
-//		Matrix lse = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).transpose().times(expectedOutputMatrix.transpose());	
-//		
-//		consequentParameters = lse.transpose().getArray()[0];
-//		
-//		isCalculated = true;
-//		index = 0;
-//	}
-	
-	private void calculateLeastSquareEstimate() {
-		double[][] helperArray = new double[combinedOutputs.length][combinedOutputs[0].length];
+	private double[][] getHelperArray() {
+		double[][] helperArray = new double[combinedOutputs.length][combinedOutputs[0].length * (input[0].length + 1)];
+		int parameterCnt = input[0].length + 1;
 		
 		for(int i = 0; i < combinedOutputs.length; i++) {
 			for(int j = 0; j < combinedOutputs[i].length; j++) {
-				if(i%(input[0].length + 1) == input[0].length) {
-					helperArray[i][j] = combinedOutputs[i][j];
-				} else {
-					helperArray[i][j] = combinedOutputs[i][j] * input[j][i%(input[0].length + 1)];
+				for(int k = 0; k < input[0].length + 1; k++) {
+					if(k == input[0].length) {
+						helperArray[i][j * parameterCnt + k] = combinedOutputs[i][j];
+					} else {
+						helperArray[i][j * parameterCnt + k] = combinedOutputs[i][j] * input[i][k];
+					}
 				}
 			}
 		}
 		
-		Matrix A = (new Matrix(helperArray)).transpose();
+		return helperArray;
+	}
+	
+	private void calculateLeastSquareEstimate() {
+		
+		double[][] helperArray = getHelperArray();
+		Matrix helperMatrix = new Matrix(helperArray);
+		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
+		
+		Matrix X;
+		
+		try{
+			throw new Exception();
+			//X = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).transpose().times(expectedOutputMatrix.transpose());	
+		} catch (Exception e) {
+			System.out.println("Exception catched");
+			X = calculateLeastSquareEstimate(helperArray);
+		}
+		
+		System.out.println("still executed");
+		consequentParameters = X.transpose().getArray()[0];
+		
+		isCalculated = true;
+		index = 0;
+	}
+	
+	private Matrix calculateLeastSquareEstimate(double[][] helperArray) {
+		
+		Matrix A = new Matrix(helperArray);
 		Matrix B = new Matrix(expectedOutput, 1);
 		
 		double[] x0 = new double[A.getColumnDimension()];
@@ -94,11 +97,13 @@ public class LeastSquaresEstimate implements NodeVisitor{
 			S = S.minus((S.times(a).times(aT).times(S)).times(1 / (1.0D + aT.times(S).times(a).get(0,0))));
 			X = X.plus(S.times(a).times( (b - aT.times(X).get(0, 0)) ));
 		}
-				
-		consequentParameters = X.transpose().getArray()[0];
 		
-		isCalculated = true;
-		index = 0;
+		return X;
+				
+//		consequentParameters = X.transpose().getArray()[0];
+//		
+//		isCalculated = true;
+//		index = 0;
 	}
 
 	@Override

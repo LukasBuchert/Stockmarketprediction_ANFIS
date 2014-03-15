@@ -319,8 +319,8 @@ public class ANFIS {
 		
 		double a = 0.0000001D;
 		double b = 200D;
-		back[0] = new MembershipFunctionNode(a,b,0.05D,varNumber,1);
-		back[1] = new MembershipFunctionNode(a,b,0.95D,varNumber,2);
+		back[0] = new MembershipFunctionNode(a,b,0D,varNumber,1);
+		back[1] = new MembershipFunctionNode(a,b,1D,varNumber,2);
 		
 		return back;
 	}

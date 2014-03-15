@@ -78,7 +78,7 @@ public class Main {
 			
 		} */
 		
-		double [][] trainingData = {{0.05,0.05},{0.95,0.05},{0.05,0.95},{0.95,0.95}};
+		double [][] trainingData = {{0,0},{1,0},{0,1},{1,1}};
 		double [] expectedOutput = {0,1,1,0};
 		
 		

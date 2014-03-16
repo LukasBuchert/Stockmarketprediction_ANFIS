@@ -12,7 +12,7 @@ public class ANFIS {
 	private Layer layer1, layer2, layer3, layer4, layer5;
 	
 	//parameter for learning rate
-	private double k = 1.0D;
+	private double k = 0.1D;
 	
 	//backpropagation stops when change is less than threshold
 	private double threshold = Double.valueOf("1E-10");
@@ -120,6 +120,9 @@ public class ANFIS {
 			
 			
 			newError = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false);
+			
+			System.out.println("Iteration:" + j + "k: "+ k + "Change Rate: "  + Math.abs(newError - lastError));
+			
 			//if change in error is less than threshold -> stop backpropagation learning
 			if(j > minIterations && Math.abs(newError - lastError) < threshold) {
 				break;

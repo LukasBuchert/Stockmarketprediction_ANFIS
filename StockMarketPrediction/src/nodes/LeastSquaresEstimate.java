@@ -86,12 +86,20 @@ public class LeastSquaresEstimate implements NodeVisitor{
 		int[] rowIndex = new int[1];
 		
 		for(int i = 0; i < A.getRowDimension(); i++) {
+			
+			System.out.println("Iteration: " + i);
+			
 			rowIndex[0] = i;
 			Matrix aT = A.getMatrix(rowIndex, 0, A.getColumnDimension()-1);
 			Matrix a = aT.transpose();
 			double b = B.get(0, i);
 
+			System.out.println( "Transposed");
+			
 			S = S.minus((S.times(a).times(aT).times(S)).times(1 / (1.0D + aT.times(S).times(a).get(0,0))));
+			
+			System.out.println( "Callculated");
+			
 			X = X.plus(S.times(a).times( (b - aT.times(X).get(0, 0)) ));
 		}
 		

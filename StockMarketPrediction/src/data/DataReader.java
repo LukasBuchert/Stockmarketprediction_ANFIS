@@ -119,7 +119,7 @@ public class DataReader {
 
             e.printStackTrace();
         }
-        protokoll();
+        //protokoll();
 
         for (int i = 20; i < data.length; i++) {
             data[i][3] = (data[i][0] / data[i - 5][0]) - 1;
@@ -139,8 +139,12 @@ public class DataReader {
 
         }
 
-        System.out.println("-------------------------");
-        protokoll();
+        for (int i = 0; i < data.length - 1 ; i++) {
+        	data[i][5] = data[i][5] / 10000000;
+        }
+        
+        //System.out.println("-------------------------");
+       // protokoll();
 
         double[][] temp = new double[data.length - 21][6];
 
@@ -150,12 +154,8 @@ public class DataReader {
 
         data = temp;
         
-        int bla = 0;
-        while (bla < 100){
-            bla++;
-        System.out.println("-------------------------");}
-        
-        protokoll();
+              
+        //protokoll();
 
         return data;
     }
@@ -181,7 +181,7 @@ public class DataReader {
             for (int j = 0; j < data[i].length; j++) {
                 System.out.print(data[i][j] + " ");
             }
-            System.out.println();
+           System.out.println();
         }
     }
 }

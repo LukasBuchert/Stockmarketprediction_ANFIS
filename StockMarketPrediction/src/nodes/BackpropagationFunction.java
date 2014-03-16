@@ -32,9 +32,9 @@ public class BackpropagationFunction implements NodeVisitor{
 		double sumOfFiringStrengths = ((NormFSNode)fsn.successorNodes.get(0)).computeSumOfFiringStrengths();
 		for(Node n : fsn.successorNodes) {
 			if(n.equals(fsn.primarySuccessorNode)) {
-				errorResult += n.error * (( sumOfFiringStrengths - fsn.getOutput() ) / sumOfFiringStrengths / sumOfFiringStrengths);
+				errorResult += n.error * (( sumOfFiringStrengths - ((NormFSNode)n).primaryPredecessorNode.getOutput() ) / sumOfFiringStrengths / sumOfFiringStrengths);
 			} else {
-				errorResult += n.error * fsn.getOutput() / sumOfFiringStrengths / sumOfFiringStrengths;
+				errorResult += n.error * ( (- ((NormFSNode)n).primaryPredecessorNode.getOutput()) / sumOfFiringStrengths / sumOfFiringStrengths );
 			}
 		}
 		fsn.error = errorResult;

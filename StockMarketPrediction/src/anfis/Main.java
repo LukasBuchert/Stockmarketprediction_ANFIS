@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		// get statistics
-/*
+
 		DataReader input = new DataReader();
 		double [][] data = input.readData();
 		double[][] statistics = input.getStatistics();
@@ -21,49 +21,49 @@ public class Main {
 					statistics[1][i+1]);
 		}
 
-*/		
+	
 		
 		
 		// set Settings
-/*		
+		
 		Settings.numberOfInputVaribles = statistics[0].length - 1;
 		// TODO do we need this ??
 		Settings.trainingDataSize = 0;
 		Settings.numberOfShapes = 4;
 		Settings.bellSlope = 2;
 		Settings.inputVariables = inputVariables;
-*/
+
 		
 		// -- xor Settings
-		Settings.numberOfInputVaribles = 2;
-		Settings.numberOfShapes = 2;
-		Settings.bellSlope = 2;
-		InputVariable[] inputVariables = new InputVariable[2];
-		inputVariables[0] = new InputVariable (1,0,1);
-		inputVariables[1] = new InputVariable (2,0,1);
-		Settings.inputVariables = inputVariables;
-		
+//		Settings.numberOfInputVaribles = 2;
+//		Settings.numberOfShapes = 2;
+//		Settings.bellSlope = 2;
+//		InputVariable[] inputVariables = new InputVariable[2];
+//		inputVariables[0] = new InputVariable (1,0,1);
+//		inputVariables[1] = new InputVariable (2,0,1);
+//		Settings.inputVariables = inputVariables;
+//		
 		// Creating ANFIS network
 		ANFIS anfis = new ANFIS();
 		anfis.generateNetwork();
 		
 		System.out.println("--generation finished");
 		
-		/*double [] trainingData = new double [5];
-		trainingData[0] = data [0][1];
-		trainingData[1] = data [0][2];
-		trainingData[2] = data [0][3];
-		trainingData[3] = data [0][4];
-		trainingData[4] = data [0][5];
-		double expectedOutput = data[0][0]; */
+//		double [] trainingData = new double [5];
+//		trainingData[0] = data [0][1];
+//		trainingData[1] = data [0][2];
+//		trainingData[2] = data [0][3];
+//		trainingData[3] = data [0][4];
+//		trainingData[4] = data [0][5];
+//		double expectedOutput = data[0][0];
 		
 		//anfis.training(trainingData);
 		
-		//System.out.println("Finished! Expected Output was: " + expectedOutput);
+//		System.out.println("Finished! Expected Output was: " + expectedOutput);
 		
 		
 		// create the training data
-	/*	int trainigDataLength = 50;
+		int trainigDataLength = 50;
 		
 		double [][] trainingData = new double [trainigDataLength][5];
 		double [] expectedOutput = new double [trainigDataLength];
@@ -76,10 +76,10 @@ public class Main {
 			trainingData[i][3] = data [i][4];
 			trainingData[i][4] = data [i][5];
 			
-		} */
+		} 
 		
-		double [][] trainingData = {{0,0},{1,0},{0,1},{1,1}};
-		double [] expectedOutput = {0,1,1,0};
+//		double [][] trainingData = {{0,0},{1,0},{0,1},{1,1}};
+//		double [] expectedOutput = {0,1,1,0};
 		
 		
 		

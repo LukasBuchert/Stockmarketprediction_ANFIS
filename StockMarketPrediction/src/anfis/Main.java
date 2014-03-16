@@ -28,7 +28,7 @@ public class Main {
 		
 		Settings.numberOfInputVaribles = statistics[0].length - 1;
 		// TODO do we need this ??
-		Settings.trainingDataSize = 0;
+		// Settings.trainingDataSize = 0;
 		Settings.numberOfShapes = 4;
 		Settings.bellSlope = 2;
 		Settings.inputVariables = inputVariables;

@@ -7,7 +7,7 @@ public class Settings {
 	public static int numberOfInputVaribles;
 	
 	// size of trainingData
-	public static int trainingDataSize;
+	// public static int trainingDataSize;
 	
 	// number of bell shapes per input varible
 	public static int numberOfShapes;

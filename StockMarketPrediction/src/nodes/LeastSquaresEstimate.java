@@ -37,16 +37,16 @@ public class LeastSquaresEstimate implements NodeVisitor{
 	}
 	
 	private double[][] getHelperArray() {
-		double[][] helperArray = new double[combinedOutputs.length][combinedOutputs[0].length * (input[0].length + 1)];
+		double[][] helperArray = new double[combinedOutputs[0].length][combinedOutputs.length * (input[0].length + 1)];
 		int parameterCnt = input[0].length + 1;
 		
-		for(int i = 0; i < combinedOutputs.length; i++) {
-			for(int j = 0; j < combinedOutputs[i].length; j++) {
+		for(int i = 0; i < combinedOutputs[0].length; i++) {
+			for(int j = 0; j < combinedOutputs.length; j++) {
 				for(int k = 0; k < input[0].length + 1; k++) {
 					if(k == input[0].length) {
-						helperArray[i][j * parameterCnt + k] = combinedOutputs[i][j];
+						helperArray[i][j * parameterCnt + k] = combinedOutputs[j][i];
 					} else {
-						helperArray[i][j * parameterCnt + k] = combinedOutputs[i][j] * input[i][k];
+						helperArray[i][j * parameterCnt + k] = combinedOutputs[j][i] * input[i][k];
 					}
 				}
 			}

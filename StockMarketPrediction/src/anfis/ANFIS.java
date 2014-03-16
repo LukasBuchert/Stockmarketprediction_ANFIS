@@ -283,47 +283,47 @@ public class ANFIS {
 	 *            - slope of the bell function (default could be 2)
 	 * @return returns a array of MembershipFunctionNode with length = shapes
 	 */
-//	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
-//			double min, double max, int shapes, double slope) {
-//
-//		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
-//
-//		if (shapes == 1) {
-//
-//			double a = (max - min) / 2;
-//			double b = slope * a;
-//			double c = min + a;
-//
-//			back[0] = new MembershipFunctionNode(a, b, c, varNumber, 1);
-//
-//		} else {
-//
-//			double a = (max - min) / (2 * shapes - 2);
-//			double b = 2 * a;
-//			double c = min - 2 * a;
-//
-//			for (int i = 0; i < shapes; i++) {
-//				c = c + 2 * a;
-//				back[i] = new MembershipFunctionNode(a, b, c, varNumber, i + 1);
-//
-//			}
-//
-//		}
-//
-//		return back;
-//	}
-	
 	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
 			double min, double max, int shapes, double slope) {
+
 		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
-		
-		double a = 0.0000001D;
-		double b = 200D;
-		back[0] = new MembershipFunctionNode(a,b,0D,varNumber,1);
-		back[1] = new MembershipFunctionNode(a,b,1D,varNumber,2);
-		
+
+		if (shapes == 1) {
+
+			double a = (max - min) / 2;
+			double b = slope * a;
+			double c = min + a;
+
+			back[0] = new MembershipFunctionNode(a, b, c, varNumber, 1);
+
+		} else {
+
+			double a = (max - min) / (2 * shapes - 2);
+			double b = 2 * a;
+			double c = min - 2 * a;
+
+			for (int i = 0; i < shapes; i++) {
+				c = c + 2 * a;
+				back[i] = new MembershipFunctionNode(a, b, c, varNumber, i + 1);
+
+			}
+
+		}
+
 		return back;
 	}
+	
+//	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
+//			double min, double max, int shapes, double slope) {
+//		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
+//		
+//		double a = 0.0000001D;
+//		double b = 200D;
+//		back[0] = new MembershipFunctionNode(a,b,0D,varNumber,1);
+//		back[1] = new MembershipFunctionNode(a,b,1D,varNumber,2);
+//		
+//		return back;
+//	}
 
 }
 

@@ -58,20 +58,17 @@ public class LeastSquaresEstimate implements NodeVisitor{
 	private void calculateLeastSquareEstimate() {
 		
 		double[][] helperArray = getHelperArray();
-		Matrix helperMatrix = new Matrix(helperArray);
-		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
+//		Matrix helperMatrix = new Matrix(helperArray);
+//		Matrix expectedOutputMatrix = new Matrix(expectedOutput, 1);
 		
 		Matrix X;
 		
-		try{
-			throw new Exception();
-			//X = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).transpose().times(expectedOutputMatrix.transpose());	
-		} catch (Exception e) {
-			System.out.println("Exception catched");
+//		try{
+//			X = helperMatrix.transpose().times(helperMatrix).inverse().times(helperMatrix.transpose()).transpose().times(expectedOutputMatrix.transpose());	
+//		} catch (Exception e) {
 			X = calculateLeastSquareEstimate(helperArray);
-		}
+//		}
 		
-		System.out.println("still executed");
 		consequentParameters = X.transpose().getArray()[0];
 		
 		isCalculated = true;

@@ -121,7 +121,8 @@ public class ANFIS {
 			
 			newError = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(false);
 			
-			System.out.println("Iteration:" + j + "k: "+ k + "Change Rate: "  + Math.abs(newError - lastError));
+			if (j%1000 == 1){
+			System.out.println("Iteration:" + j + "k: "+ k + "Change Rate: "  + Math.abs(newError - lastError));}
 			
 			//if change in error is less than threshold -> stop backpropagation learning
 			if(j > minIterations && Math.abs(newError - lastError) < threshold) {

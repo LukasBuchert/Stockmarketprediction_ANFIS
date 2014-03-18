@@ -68,13 +68,25 @@ public class Main {
 		int trainigDataLength = 500;
 		
 		double [][] trainingData = new double [trainigDataLength][3];
+		double [][] testData = new double [100][3];
 		double [] expectedOutput = new double [trainigDataLength];
+		double [] expectedOutput2 = new double [trainigDataLength];
 		
 		for (int i = 0; i < trainigDataLength; i++){
 			expectedOutput [i] = data [i][0];
 			trainingData[i][0] = data [i][1];
 			trainingData[i][1] = data [i][3];
 			trainingData[i][2] = data [i][5];
+//			trainingData[i][3] = data [i][4];
+//			trainingData[i][4] = data [i][5];
+			
+		} 
+		
+		for (int i = 500, j = 0; i < 600; i++, j++){
+			expectedOutput2 [j] = data [i][0];
+			testData[j][0] = data [i][1];
+			testData[j][1] = data [i][3];
+			testData[j][2] = data [i][5];
 //			trainingData[i][3] = data [i][4];
 //			trainingData[i][4] = data [i][5];
 			
@@ -111,6 +123,9 @@ public class Main {
 		
 		System.out.println("Fehlerrate nach 2. Training: " + errorSum);
 		
+		
+		System.out.println("Test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("Ende: " + anfis.test(testData, expectedOutput2));
 		
 //		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
 //		errorSum = anfis.test(trainingData, expectedOutput);

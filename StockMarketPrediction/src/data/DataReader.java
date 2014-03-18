@@ -140,7 +140,7 @@ public class DataReader {
         }
 
         for (int i = 0; i < data.length - 1 ; i++) {
-        	data[i][5] = data[i][5] / 10000000;
+        	data[i][5] = data[i][5] / 100000000;
         }
         
         //System.out.println("-------------------------");

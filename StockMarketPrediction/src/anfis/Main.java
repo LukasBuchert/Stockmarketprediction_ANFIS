@@ -9,91 +9,51 @@ public class Main {
 
 		// get statistics
 
-		DataReader input = new DataReader();
-		double [][] data = input.readData();
-		double[][] statistics = input.getStatistics();
-//	InputVariable[] inputVariables = new InputVariable[statistics[0].length-1];
-		InputVariable[] inputVariables = new InputVariable[3];
-
-		// i = 0 == expectedOutput
-		
-		for (int i = 0; i < inputVariables.length; i++) {
-			inputVariables[i] = new InputVariable(i + 1, statistics[0][i+1],
-					statistics[1][i+1]);
-		}
-
-	
-		
-		
-		// set Settings
-		
-		Settings.numberOfInputVaribles = 3;
-//		Settings.numberOfInputVaribles = 3;
-		// TODO do we need this ??
-		// Settings.trainingDataSize = 0;
-		Settings.numberOfShapes = 4;
-		Settings.bellSlope = 2;
-		Settings.inputVariables = inputVariables;
-
-		
-		// -- xor Settings
-//		Settings.numberOfInputVaribles = 2;
-//		Settings.numberOfShapes = 2;
-//		Settings.bellSlope = 2;
-//		InputVariable[] inputVariables = new InputVariable[2];
-//		inputVariables[0] = new InputVariable (1,0,1);
-//		inputVariables[1] = new InputVariable (2,0,1);
-//		Settings.inputVariables = inputVariables;
+//		DataReader input = new DataReader();
+//		double [][] data = input.readData();
+//		double[][] statistics = input.getStatistics();
+////	InputVariable[] inputVariables = new InputVariable[statistics[0].length-1];
+//		InputVariable[] inputVariables = new InputVariable[3];
+//
+//		// i = 0 == expectedOutput
 //		
-		// Creating ANFIS network
+//		for (int i = 0; i < inputVariables.length; i++) {
+//			inputVariables[i] = new InputVariable(i + 1, statistics[0][i+1],
+//					statistics[1][i+1]);
+//		}
+//
+//	
+//		
+//		
+//		// set Settings
+//		
+//		Settings.numberOfInputVaribles = 3;
+////		Settings.numberOfInputVaribles = 3;
+//		// TODO do we need this ??
+//		// Settings.trainingDataSize = 0;
+//		Settings.numberOfShapes = 4;
+//		Settings.bellSlope = 2;
+//		Settings.inputVariables = inputVariables;
+
+		
+		
+		
+		
+		DataInterface test = new DataInterface("input1.csv", 2,4,0,2,2);
+		
+		Settings.numberOfInputVaribles = test.getNumberOfInputVariables();
+		Settings.numberOfShapes = test.getNumberOfShapes();
+		Settings.bellSlope = test.getBellSlope();
+		Settings.inputVariables = test.getInputVariables();
+		
 		ANFIS anfis = new ANFIS();
 		anfis.generateNetwork();
 		
 		System.out.println("--generation finished");
 		
-//		double [] trainingData = new double [5];
-//		trainingData[0] = data [0][1];
-//		trainingData[1] = data [0][2];
-//		trainingData[2] = data [0][3];
-//		trainingData[3] = data [0][4];
-//		trainingData[4] = data [0][5];
-//		double expectedOutput = data[0][0];
 		
-		//anfis.training(trainingData);
-		
-//		System.out.println("Finished! Expected Output was: " + expectedOutput);
-		
-		
-		// create the training data
-		int trainigDataLength = 500;
-		
-		double [][] trainingData = new double [trainigDataLength][3];
-		double [][] testData = new double [100][3];
-		double [] expectedOutput = new double [trainigDataLength];
-		double [] expectedOutput2 = new double [trainigDataLength];
-		
-		for (int i = 0; i < trainigDataLength; i++){
-			expectedOutput [i] = data [i][0];
-			trainingData[i][0] = data [i][1];
-			trainingData[i][1] = data [i][3];
-			trainingData[i][2] = data [i][5];
-//			trainingData[i][3] = data [i][4];
-//			trainingData[i][4] = data [i][5];
-			
-		} 
-		
-		for (int i = 500, j = 0; i < 600; i++, j++){
-			expectedOutput2 [j] = data [i][0];
-			testData[j][0] = data [i][1];
-			testData[j][1] = data [i][3];
-			testData[j][2] = data [i][5];
-//			trainingData[i][3] = data [i][4];
-//			trainingData[i][4] = data [i][5];
-			
-		} 
-		
-//		double [][] trainingData = {{0,0},{1,0},{0,1},{1,1}};
-//		double [] expectedOutput = {0,1,1,0};
+		double [][] trainingData = test.getTrainigData();
+		double [] expectedOutput = {0,1,1,0};
 		
 		
 		
@@ -124,8 +84,98 @@ public class Main {
 		System.out.println("Fehlerrate nach 2. Training: " + errorSum);
 		
 		
-		System.out.println("Test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("Ende: " + anfis.test(testData, expectedOutput2));
+		//test.parseCsvFile("input1.csv");
+		
+		// -- xor Settings
+//		Settings.numberOfInputVaribles = 2;
+//		Settings.numberOfShapes = 2;
+//		Settings.bellSlope = 2;
+//		InputVariable[] inputVariables = new InputVariable[2];
+//		inputVariables[0] = new InputVariable (1,0,1);
+//		inputVariables[1] = new InputVariable (2,0,1);
+//		Settings.inputVariables = inputVariables;
+//		
+		// Creating ANFIS network
+//		ANFIS anfis = new ANFIS();
+//		anfis.generateNetwork();
+//		
+//		System.out.println("--generation finished");
+		
+//		double [] trainingData = new double [5];
+//		trainingData[0] = data [0][1];
+//		trainingData[1] = data [0][2];
+//		trainingData[2] = data [0][3];
+//		trainingData[3] = data [0][4];
+//		trainingData[4] = data [0][5];
+//		double expectedOutput = data[0][0];
+		
+		//anfis.training(trainingData);
+		
+//		System.out.println("Finished! Expected Output was: " + expectedOutput);
+		
+		
+		// create the training data
+//		int trainigDataLength = 500;
+//		
+//		double [][] trainingData = new double [trainigDataLength][3];
+//		double [][] testData = new double [100][3];
+//		double [] expectedOutput = new double [trainigDataLength];
+//		double [] expectedOutput2 = new double [trainigDataLength];
+//		
+//		for (int i = 0; i < trainigDataLength; i++){
+//			expectedOutput [i] = data [i][0];
+//			trainingData[i][0] = data [i][1];
+//			trainingData[i][1] = data [i][3];
+//			trainingData[i][2] = data [i][5];
+////			trainingData[i][3] = data [i][4];
+////			trainingData[i][4] = data [i][5];
+//			
+//		} 
+//		
+//		for (int i = 500, j = 0; i < 600; i++, j++){
+//			expectedOutput2 [j] = data [i][0];
+//			testData[j][0] = data [i][1];
+//			testData[j][1] = data [i][3];
+//			testData[j][2] = data [i][5];
+//			trainingData[i][3] = data [i][4];
+//			trainingData[i][4] = data [i][5];
+			
+		} 
+		
+//		double [][] trainingData = {{0,0},{1,0},{0,1},{1,1}};
+//		double [] expectedOutput = {0,1,1,0};
+		
+		
+		
+		
+		// Ausfuehren von Anfis
+		
+//		double errorSum;
+//		
+//		errorSum = anfis.test(trainingData, expectedOutput);
+//		
+//		System.out.println("Anfaengliche Fehlerrate: " + errorSum);
+//		
+//		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
+//		errorSum = anfis.test(trainingData, expectedOutput);
+////		System.out.println("Fehlerrate nach 1. Training (nur Consequent Parameter): " + errorSum);
+////		errorSum = anfis.trainPremise(trainingData, expectedOutput);
+////		errorSum = anfis.test(trainingData, expectedOutput);
+//		
+//		System.out.println("Fehlerrate nach 1. Training: " + errorSum);
+//		
+//		
+//		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
+//		errorSum = anfis.test(trainingData, expectedOutput);
+//		System.out.println("Fehlerrate nach 2. Training (nur Consequent Parameter): " + errorSum);
+//		errorSum = anfis.trainPremise(trainingData, expectedOutput);
+//		errorSum = anfis.test(trainingData, expectedOutput);
+//		
+//		System.out.println("Fehlerrate nach 2. Training: " + errorSum);
+//		
+//		
+//		System.out.println("Test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		System.out.println("Ende: " + anfis.test(testData, expectedOutput2));
 		
 //		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
 //		errorSum = anfis.test(trainingData, expectedOutput);
@@ -145,4 +195,4 @@ public class Main {
 
 	}
 
-}
+

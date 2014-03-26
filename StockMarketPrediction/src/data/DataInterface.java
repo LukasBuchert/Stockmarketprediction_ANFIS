@@ -80,7 +80,9 @@ public class DataInterface {
 
 		double trainigData[][] = new double[trainingDataLength][inputVariables.length];
 		for (int i = 0; i < trainingDataLength; i++) {
-			trainigData[i] = data[i];
+			for (int m = 0; m < inputVariables.length; m++) {
+				trainigData[i][m] = data[i][m];
+			}
 			// TODO check if this functions data is bigger than traingData, this
 			// might lead to exception
 		}
@@ -91,9 +93,10 @@ public class DataInterface {
 
 		double testData[][] = new double[testDataLength][inputVariables.length];
 		for (int i = trainingDataLength, j = 0; i < (trainingDataLength + testDataLength); i++, j++) {
-			testData[j] = data[i];
-			// TODO check if this functions data is bigger than traingData, this
-			// might lead to exception
+			for (int m = 0; m < inputVariables.length; m++) {
+				testData[j][m] = data[i][m];
+			}
+
 		}
 		return testData;
 

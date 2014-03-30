@@ -88,6 +88,14 @@ public class DataInterface {
 		}
 		return trainigData;
 	}
+	
+	public double [] getExpectedTrainingOutput (){
+		double expectedOutput[] = new double [trainingDataLength];
+		for (int i = 0; i < trainingDataLength; i++) {
+			expectedOutput[i] = data[i][inputVariables.length+1];
+		}
+		return expectedOutput;
+	}
 
 	public double[][] getTestData() {
 
@@ -100,6 +108,14 @@ public class DataInterface {
 		}
 		return testData;
 
+	}
+	
+	public double [] getExpectedTestOutput (){
+		double expectedOutput[] = new double [testDataLength];
+		for (int i =  trainingDataLength; i < (trainingDataLength + testDataLength); i++) {
+			expectedOutput[i] = data[i][inputVariables.length+1];
+		}
+		return expectedOutput;
 	}
 
 	private void readData() {

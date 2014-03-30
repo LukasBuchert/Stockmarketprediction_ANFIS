@@ -83,8 +83,6 @@ public class DataInterface {
 			for (int m = 0; m < inputVariables.length; m++) {
 				trainigData[i][m] = data[i][m];
 			}
-			// TODO check if this functions data is bigger than traingData, this
-			// might lead to exception
 		}
 		return trainigData;
 	}

@@ -22,7 +22,7 @@ public class Main {
 		
 		
 		double [][] trainingData = xor_test.getTrainigData();
-		double [] expectedOutput = {0,1,1,0};
+		double [] expectedOutput = xor_test.getExpectedTrainingOutput();
 		
 		
 		
@@ -51,6 +51,7 @@ public class Main {
 		result = anfis.test(trainingData, expectedOutput);
 		
 		System.out.println("Fehlerrate nach 2. Training: " + result[0][0]);
+		
 		
 		
 	}

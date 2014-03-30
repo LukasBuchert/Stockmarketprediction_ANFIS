@@ -92,7 +92,7 @@ public class DataInterface {
 	public double [] getExpectedTrainingOutput (){
 		double expectedOutput[] = new double [trainingDataLength];
 		for (int i = 0; i < trainingDataLength; i++) {
-			expectedOutput[i] = data[i][inputVariables.length+1];
+			expectedOutput[i] = data[i][inputVariables.length];
 		}
 		return expectedOutput;
 	}
@@ -113,7 +113,7 @@ public class DataInterface {
 	public double [] getExpectedTestOutput (){
 		double expectedOutput[] = new double [testDataLength];
 		for (int i =  trainingDataLength; i < (trainingDataLength + testDataLength); i++) {
-			expectedOutput[i] = data[i][inputVariables.length+1];
+			expectedOutput[i] = data[i][inputVariables.length];
 		}
 		return expectedOutput;
 	}

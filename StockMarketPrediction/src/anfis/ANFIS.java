@@ -36,9 +36,11 @@ public class ANFIS {
 		generateLayer5();
 	}
 	
-	public double test(double[][] dataSet, double[] expectedOutput) {
+	public double[][] test(double[][] dataSet, double[] expectedOutput) {
 		FeedforwardFunction fff = new FeedforwardFunction(false);
 		BackpropagationFunction bpf = new BackpropagationFunction(true);
+		
+		double[][] result = new double[expectedOutput.length + 1][2]; // 1st line: error (twice); 2nd - last line: anfis output, expected output
 		
 		for(int i = 0; i < dataSet.length; i++) {
 			fff.setInput(dataSet[i]);
@@ -52,11 +54,16 @@ public class ANFIS {
 			layer5.sendVisitorToAllNodes(fff);
 			
 			System.out.println("Input: "+ dataSet[i][0] + " " + dataSet[i][1] + " Output: " + layer5.getNodes().get(0).getOutput());
+			result[i+1][0] = layer5.getNodes().get(0).getOutput();
+			result[i+1][1] = expectedOutput[i];
 			
 			layer5.sendVisitorToAllNodes(bpf);
 		}
 		
-		return ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
+		result[0][0] = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
+		result[0][1] = ((OutputNode) layer5.getNodes().get(0)).getSumOfError(true);
+		
+		return result;
 	}
 	
 	public double trainConsequent (double[][] trainingSet, double[] expectedOutput){

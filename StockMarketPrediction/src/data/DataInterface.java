@@ -2,6 +2,7 @@ package data;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
@@ -20,6 +21,8 @@ public class DataInterface {
 	// contain expected output
 	private int inputLength;
 	private String outputFilePath;
+	private double errorSum;
+	private int numberOfData;
 
 	private double[][] data;
 	private final int trainingDataLength;
@@ -53,6 +56,24 @@ public class DataInterface {
 		this.numberOfShapes = numberOfShapes;
 		this.bellSlope = bellSlope;
 		inputVariables = new InputVariable[inputLength];
+		numberOfData = countData();
+		readData();
+		protokoll(data);
+		protokoll(this.getTrainigData());
+		protokoll(this.getTestData());
+
+	}
+
+	public DataInterface(String inputFilePath, int inputLength,
+			int trainingPercentage, int numberOfShapes, int bellSlope) {
+		this.inputFilePath = inputFilePath;
+		this.inputLength = inputLength;
+		numberOfData = countData();
+		this.trainingDataLength = trainingPercentage * numberOfData / 100;
+		this.testDataLength = numberOfData - trainingDataLength;
+		this.numberOfShapes = numberOfShapes;
+		this.bellSlope = bellSlope;
+		inputVariables = new InputVariable[inputLength];
 		readData();
 		protokoll(data);
 		protokoll(this.getTrainigData());
@@ -76,6 +97,10 @@ public class DataInterface {
 		return inputVariables.length;
 	}
 
+	public double getErrorSum() {
+		return this.errorSum;
+	}
+
 	public double[][] getTrainigData() {
 
 		double trainigData[][] = new double[trainingDataLength][inputVariables.length];
@@ -86,9 +111,9 @@ public class DataInterface {
 		}
 		return trainigData;
 	}
-	
-	public double [] getExpectedTrainingOutput (){
-		double expectedOutput[] = new double [trainingDataLength];
+
+	public double[] getExpectedTrainingOutput() {
+		double expectedOutput[] = new double[trainingDataLength];
 		for (int i = 0; i < trainingDataLength; i++) {
 			expectedOutput[i] = data[i][inputVariables.length];
 		}
@@ -107,19 +132,16 @@ public class DataInterface {
 		return testData;
 
 	}
-	
-	public double [] getExpectedTestOutput (){
-		double expectedOutput[] = new double [testDataLength];
-		for (int i =  trainingDataLength; i < (trainingDataLength + testDataLength); i++) {
+
+	public double[] getExpectedTestOutput() {
+		double expectedOutput[] = new double[testDataLength];
+		for (int i = trainingDataLength; i < (trainingDataLength + testDataLength); i++) {
 			expectedOutput[i] = data[i][inputVariables.length];
 		}
 		return expectedOutput;
 	}
 
 	private void readData() {
-		// TODO read Data form Input File, Check if number of Datasets >=
-		// training + testData length
-
 		data = new double[trainingDataLength + testDataLength][inputLength + 1];
 
 		try {
@@ -185,9 +207,44 @@ public class DataInterface {
 
 	}
 
-	private void writeData(double[][] output) {
-		// TODO write Output, output should contain estimated output and real
-		// ANFIS output
+	private int countData() {
+		int back = 1;
+		try {
+			BufferedReader in = new BufferedReader(
+					new FileReader(inputFilePath));
+			String zeile = null;
+			while ((zeile = in.readLine()) != null) {
+				back++;
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return back;
+	}
+
+	public void writeData(double[][] output, String outputFilePath) {
+
+		this.outputFilePath = outputFilePath;
+		errorSum = output[0][0];
+
+		try {
+
+			FileWriter writer = new FileWriter(outputFilePath);
+
+			for (int i = 1; i < output.length; i++) {
+				for (int j = 0; j < output[0].length; j++) {
+					writer.append(Double.toString(output[i][j]));
+					writer.append(';');
+				}
+				writer.append('\n');
+			}
+
+			writer.flush();
+			writer.close();
+		} catch (Exception e) {
+
+		}
 	}
 
 	public static void protokoll(double[][] data) {

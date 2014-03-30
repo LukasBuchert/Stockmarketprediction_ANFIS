@@ -29,28 +29,28 @@ public class Main {
 		
 		// Ausfuehren von Anfis
 		
-		double errorSum;
+		double[][] result;
 		
-		errorSum = anfis.test(trainingData, expectedOutput);
+		result = anfis.test(trainingData, expectedOutput);
 		
-		System.out.println("Anfaengliche Fehlerrate: " + errorSum);
+		System.out.println("Anfaengliche Fehlerrate: " + result[0][0]);
 		
-		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
-		errorSum = anfis.test(trainingData, expectedOutput);
-		System.out.println("Fehlerrate nach 1. Training (nur Consequent Parameter): " + errorSum);
-		errorSum = anfis.trainPremise(trainingData, expectedOutput);
-		errorSum = anfis.test(trainingData, expectedOutput);
+		anfis.trainConsequent(trainingData, expectedOutput);
+		result = anfis.test(trainingData, expectedOutput);
+		System.out.println("Fehlerrate nach 1. Training (nur Consequent Parameter): " + result[0][0]);
+		anfis.trainPremise(trainingData, expectedOutput);
+		result = anfis.test(trainingData, expectedOutput);
 		
-		System.out.println("Fehlerrate nach 1. Training: " + errorSum);
+		System.out.println("Fehlerrate nach 1. Training: " + result[0][0]);
 		
 		
-		errorSum = anfis.trainConsequent(trainingData, expectedOutput);
-		errorSum = anfis.test(trainingData, expectedOutput);
-		System.out.println("Fehlerrate nach 2. Training (nur Consequent Parameter): " + errorSum);
-		errorSum = anfis.trainPremise(trainingData, expectedOutput);
-		errorSum = anfis.test(trainingData, expectedOutput);
+		anfis.trainConsequent(trainingData, expectedOutput);
+		result = anfis.test(trainingData, expectedOutput);
+		System.out.println("Fehlerrate nach 2. Training (nur Consequent Parameter): " + result[0][0]);
+		anfis.trainPremise(trainingData, expectedOutput);
+		result = anfis.test(trainingData, expectedOutput);
 		
-		System.out.println("Fehlerrate nach 2. Training: " + errorSum);
+		System.out.println("Fehlerrate nach 2. Training: " + result[0][0]);
 		
 		
 	}

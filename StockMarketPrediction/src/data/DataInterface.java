@@ -135,8 +135,8 @@ public class DataInterface {
 
 	public double[] getExpectedTestOutput() {
 		double expectedOutput[] = new double[testDataLength];
-		for (int i = trainingDataLength; i < (trainingDataLength + testDataLength); i++) {
-			expectedOutput[i] = data[i][inputVariables.length];
+		for (int i = 0; i < testDataLength; i++) {
+			expectedOutput[i] = data[i + trainingDataLength][inputVariables.length];
 		}
 		return expectedOutput;
 	}

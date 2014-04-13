@@ -9,7 +9,7 @@ public class Main {
 
 		// DataInterface xor_test = new DataInterface("input1.csv", 2,4,0,2,2);
 		//DataInterface xor_test = new DataInterface("input1.csv", 2, 80, 2, 2);
-		DataInterface testcase = new DataInterface("ibm_normalized.csv",3,80,2,2);
+		DataInterface testcase = new DataInterface("ibm_functionforcast_normalized_short.csv",3,90,2,2);
 
 //		Settings.numberOfInputVaribles = xor_test.getNumberOfInputVariables();
 //		Settings.numberOfShapes = xor_test.getNumberOfShapes();
@@ -32,8 +32,10 @@ public class Main {
 		// Ausfuehren von Anfis
 
 		double[][] result;
-		int epochNumber = 20;
+		int epochNumber = 10;
 
+		// = WENN((A2*B2)> 0;1;0)
+		
 		for (int i = 0; i < epochNumber; i++){
 			result = anfis.test(trainingData, expectedOutput);
 			anfis.trainConsequent(trainingData, expectedOutput);
@@ -66,12 +68,14 @@ public class Main {
 //
 //		System.out.println("Fehlerrate nach 2. Training: " + result[0][0]);
 
-		//testcase.writeData(result, "out.csv");
+		
+		result = anfis.test(trainingData, expectedOutput);
+		testcase.writeData(result, "out_training.csv");
 		
 		result = anfis.test(testcase.getTestData(), testcase.getExpectedTestOutput());
 		
 		
-		testcase.writeData(result, "out2.csv");
+		testcase.writeData(result, "out_test.csv");
 		System.out.println("Finished !!!");
 
 	}

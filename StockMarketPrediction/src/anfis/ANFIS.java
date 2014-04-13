@@ -17,7 +17,7 @@ public class ANFIS {
 	//backpropagation stops when change is less than threshold
 	private double threshold = Double.valueOf("1E-10");
 	private double minIterations = 100;
-	private double maxIterations = 1500;
+	private double maxIterations = 7500;
 
 	public ANFIS() {
 

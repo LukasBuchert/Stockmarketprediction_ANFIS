@@ -17,6 +17,7 @@ public class ANFIS {
 	//backpropagation stops when change is less than threshold
 	private double threshold = Double.valueOf("1E-10");
 	private double minIterations = 100;
+	private double maxIterations = 3000;
 
 	public ANFIS() {
 
@@ -134,7 +135,7 @@ public class ANFIS {
 			System.out.println("Iteration:" + j + "k: "+ k + "Change Rate: "  + Math.abs(newError - lastError));}
 			
 			//if change in error is less than threshold -> stop backpropagation learning
-			if(j > minIterations && Math.abs(newError - lastError) < threshold) {
+			if(j > minIterations && Math.abs(newError - lastError) < threshold || j > maxIterations) {
 				break;
 			}
 						

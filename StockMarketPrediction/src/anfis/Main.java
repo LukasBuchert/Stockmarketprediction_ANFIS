@@ -9,19 +9,25 @@ public class Main {
 
 		// DataInterface xor_test = new DataInterface("input1.csv", 2,4,0,2,2);
 		DataInterface xor_test = new DataInterface("input1.csv", 2, 80, 2, 2);
+		DataInterface ibm2 = new DataInterface("ibm2.csv",3,80,2,2);
 
-		Settings.numberOfInputVaribles = xor_test.getNumberOfInputVariables();
-		Settings.numberOfShapes = xor_test.getNumberOfShapes();
-		Settings.bellSlope = xor_test.getBellSlope();
-		Settings.inputVariables = xor_test.getInputVariables();
+//		Settings.numberOfInputVaribles = xor_test.getNumberOfInputVariables();
+//		Settings.numberOfShapes = xor_test.getNumberOfShapes();
+//		Settings.bellSlope = xor_test.getBellSlope();
+//		Settings.inputVariables = xor_test.getInputVariables();
+		
+		Settings.numberOfInputVaribles = ibm2.getNumberOfInputVariables();
+		Settings.numberOfShapes = ibm2.getNumberOfShapes();
+		Settings.bellSlope = ibm2.getBellSlope();
+		Settings.inputVariables = ibm2.getInputVariables();
 
 		ANFIS anfis = new ANFIS();
 		anfis.generateNetwork();
 
 		System.out.println("--generation finished");
 
-		double[][] trainingData = xor_test.getTrainigData();
-		double[] expectedOutput = xor_test.getExpectedTrainingOutput();
+		double[][] trainingData = ibm2.getTrainigData();
+		double[] expectedOutput = ibm2.getExpectedTrainingOutput();
 
 		// Ausfuehren von Anfis
 

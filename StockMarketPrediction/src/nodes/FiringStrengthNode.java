@@ -27,8 +27,12 @@ public class FiringStrengthNode extends Node{
 		
 	public double computeFiringStrength(Node exclude) {
 		Iterator<Node> predNodes = predecessorNodes.iterator();
-		Node next;
-		double result = predNodes.next().getOutput();
+		Node next = predNodes.next();
+		if(next.equals(exclude)) {
+			next = predNodes.next();
+		}
+		
+		double result = next.getOutput();
 		while(predNodes.hasNext()) {
 			next = predNodes.next();
 			if(next.equals(exclude)) {

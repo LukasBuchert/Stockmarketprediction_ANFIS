@@ -71,6 +71,8 @@ public class BackpropagationFunction implements NodeVisitor{
 		}
 		mfn.error = errorResult;
 		
+		mfn.incVisits();
+		
 		partialErrorForABC(mfn);
 	}
 

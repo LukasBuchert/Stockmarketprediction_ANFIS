@@ -14,6 +14,8 @@ public class MembershipFunctionNode extends Node {
 	private double errorSumB;
 	private double errorSumC;
 	
+	private int visits;
+	
 	private static double overallSquaredErrorSum;
 
 	public MembershipFunctionNode(double a, double b, double c, int varNumber,
@@ -27,6 +29,7 @@ public class MembershipFunctionNode extends Node {
 		errorSumA = 0.0D;
 		errorSumB = 0.0D;
 		errorSumC = 0.0D;
+		visits = 0;
 	}
 
 	@Override
@@ -102,5 +105,16 @@ public class MembershipFunctionNode extends Node {
 	public static void setOverallSquaredErrorSum(double overallSquaredErrorSum) {
 		MembershipFunctionNode.overallSquaredErrorSum = overallSquaredErrorSum;
 	}
+	
+	public void incVisits() {
+		visits++;
+	}
 
+	public int getVisits(boolean clearVisits) {
+		int ret = visits;
+		if(clearVisits) {
+			visits = 0;
+		}
+		return ret;
+	}
 }

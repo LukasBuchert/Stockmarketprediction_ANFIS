@@ -18,9 +18,10 @@ public class GradientDecent implements NodeVisitor {
 //		System.out.println("A: " + mfn.getErrorSumA(false));
 //		System.out.println("B: " + mfn.getErrorSumB(false));
 //		System.out.println("C: " + mfn.getErrorSumC(false));
-		mfn.a -= learningRate * mfn.getErrorSumA(true);
-		mfn.b -= learningRate * mfn.getErrorSumB(true);
-		mfn.c -= learningRate * mfn.getErrorSumC(true);
+		double dataSize = (double)mfn.getVisits(true);
+		mfn.a -= learningRate * mfn.getErrorSumA(true) / dataSize;
+		mfn.b -= learningRate * mfn.getErrorSumB(true) / dataSize;
+		mfn.c -= learningRate * mfn.getErrorSumC(true) / dataSize;
 	}
 
 	@Override

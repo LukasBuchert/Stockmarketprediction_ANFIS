@@ -9,7 +9,7 @@ public class LeastSquaresEstimate implements NodeVisitor{
 	private double[] consequentParameters;
 	private boolean isCalculated;
 	private int index;
-	private final double LARGE_NUMBER = 8147483648D;
+	private final double LARGE_NUMBER = 18147483648D;
 	//8147483648D
 	
 	public LeastSquaresEstimate(double[][] input, double[] expectedOutput, int numberOfNormFSNodes) {

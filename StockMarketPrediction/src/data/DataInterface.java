@@ -208,7 +208,7 @@ public class DataInterface {
 	}
 
 	private int countData() {
-		int back = 1;
+		int back = 0;
 		try {
 			BufferedReader in = new BufferedReader(
 					new FileReader(inputFilePath));

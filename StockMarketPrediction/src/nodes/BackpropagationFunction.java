@@ -94,11 +94,26 @@ public class BackpropagationFunction implements NodeVisitor{
 		pn.error = errorResult;
 	}
 
+	private double penalty = 2D;
 	@Override
 	public void visit(OutputNode on) {
 		on.error = -(expectedOutput - on.getOutput());
+		if(expectedOutput * on.getOutput() > 0D && Math.abs(on.getOutput()) >= 100D) {
+			on.error = 0D;
+		}
+//		if(expectedOutput * on.getOutput() < 0D) {
+//			on.error *= (Math.abs(expectedOutput - on.getOutput()) - 99D);
+//		}
+		
+		//on.error *= Math.abs(expectedOutput - on.getOutput());
+		
+		//on.error *= 100 / Math.abs(expectedOutput);
+		
+		//System.out.println(expectedOutput + " " + on.getOutput() + " " + on.error);
 		if(sumUpOutputError) {
-			on.updateSumOfError(Math.abs(expectedOutput - on.getOutput()));
+			//on.updateSumOfError(Math.abs(expectedOutput - on.getOutput()));
+			//on.updateSumOfError(expectedOutput * on.getOutput() > 0D ? 0D : 1D);
+			on.updateSumOfError(Math.abs(on.error));
 			//System.out.println("New output is:" + on.sumOfError);
 		}
 	}

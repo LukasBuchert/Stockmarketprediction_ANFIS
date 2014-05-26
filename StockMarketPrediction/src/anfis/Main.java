@@ -15,7 +15,8 @@ public class Main {
 	private static String outputPath;
 
 	public Main(String inputPath, int numberOfInputVariables, int percentage,
-			int numberOfShapes, int bellSlope, int epochNumber, String outputPath) {
+			int numberOfShapes, int bellSlope, int epochNumber,
+			String outputPath) {
 		super();
 		this.inputPath = inputPath;
 		this.numberOfInputVariables = numberOfInputVariables;
@@ -29,6 +30,7 @@ public class Main {
 	public static void runANFIS() {
 		DataInterface testcase = new DataInterface(inputPath,
 				numberOfInputVariables, percentage, numberOfShapes, bellSlope);
+
 		Settings.numberOfInputVaribles = testcase.getNumberOfInputVariables();
 		Settings.numberOfShapes = testcase.getNumberOfShapes();
 		Settings.bellSlope = testcase.getBellSlope();
@@ -70,9 +72,9 @@ public class Main {
 		bellSlope = 2;
 		epochNumber = 2;
 		outputPath = "maintest";
-		
+
 		runANFIS();
-		
+
 		// DataInterface testcase = new DataInterface(
 		// "ibm_functionforcast_short.csv", 3, 90, 3, 2);
 		//

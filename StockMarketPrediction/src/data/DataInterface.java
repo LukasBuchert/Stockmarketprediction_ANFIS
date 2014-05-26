@@ -122,6 +122,7 @@ public class DataInterface {
 
 	public double[][] getTestData() {
 
+		//TODO: check again - there is a line of zeros at the end
 		double testData[][] = new double[testDataLength][inputVariables.length];
 		for (int i = trainingDataLength, j = 0; i < (trainingDataLength + testDataLength); i++, j++) {
 			for (int m = 0; m < inputVariables.length; m++) {
@@ -134,6 +135,8 @@ public class DataInterface {
 	}
 
 	public double[] getExpectedTestOutput() {
+		
+		//TODO: check again - there is a zero at the end
 		double expectedOutput[] = new double[testDataLength];
 		for (int i = 0; i < testDataLength; i++) {
 			expectedOutput[i] = data[i + trainingDataLength][inputVariables.length];

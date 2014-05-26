@@ -69,7 +69,6 @@ public class MainApplication  extends Application {
         
         grid.add(lblInput, 0, 0);
         grid.add(tfInput, 1, 0);
-        //grid.add(btnInputConfig, 2, 0);
         grid.add(lblOutput, 0, 1);
         grid.add(tfOutput, 1, 1);
         grid.add(lblStatus, 0, 2);

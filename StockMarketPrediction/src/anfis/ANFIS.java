@@ -15,17 +15,13 @@ public class ANFIS {
 	private double k = 0.1D;
 	
 	//backpropagation stops when change is less than threshold
-	private double threshold = Double.valueOf("1E-10");
+	private double threshold = Settings.backprob_threshold;
 	private double minIterations = 1000;
-	private double maxIterations = 3000;
+	private double maxIterations = Settings.backprob_maxit;
 
 	public ANFIS() {
 
 	}
-	
-	// TODO Nice if Stephan would do this :)
-	// TODO There should be a method for test purposes that has input parameters testData, expectedOutput and returns a double [][] array with
-	// TODO 		calculated output and expected Output for each set of the training data --> this can be written in .csv and then evaluated.
 
 	// generating new network -- overwrite old if there was one
 	public void generateNetwork() {

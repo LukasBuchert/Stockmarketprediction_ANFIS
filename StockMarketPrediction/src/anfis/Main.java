@@ -16,7 +16,7 @@ public class Main {
 
 	public Main(String inputPath, int numberOfInputVariables, int percentage,
 			int numberOfShapes, int bellSlope, int epochNumber,
-			String outputPath) {
+			String outputPath, int backprob_maxit, double backprob_threshold, boolean customstock, int customstock_threshold) {
 		super();
 		this.inputPath = inputPath;
 		this.numberOfInputVariables = numberOfInputVariables;
@@ -25,6 +25,10 @@ public class Main {
 		this.bellSlope = bellSlope;
 		this.epochNumber = epochNumber;
 		this.outputPath = outputPath;
+		Settings.backprob_maxit = backprob_maxit;
+		Settings.backprob_threshold = backprob_threshold;
+		Settings.customstock = customstock;
+		Settings.customstock_threshold = customstock_threshold;
 	}
 
 	public static void runANFIS() {

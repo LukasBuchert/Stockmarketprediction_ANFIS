@@ -6,19 +6,23 @@ public class Settings {
 	// number of inputVaribles
 	public static int numberOfInputVaribles;
 	
-	// size of trainingData
-	// public static int trainingDataSize;
-	
 	// number of bell shapes per input varible
 	public static int numberOfShapes;
 	
 	// slope of bell shapes
 	public static double bellSlope;
 	
+	// maximal Iterations for backpropagation in epoch
+	public static int backprob_maxit;
 	
-	// statistics of trainigData input Varibles
-	// [x][y]; x = number of variable -1 / y0 = min, y1 = max, y2 = avg
-	//public static double [][] trainingDataStatistics;
+	// backpropagation threshold
+	public static double backprob_threshold;
+	
+	// enable custom stock trend error
+	public static boolean customstock;
+	
+	// trend error function thresold
+	public static int customstock_threshold;
 	
 	public static InputVariable [] inputVariables;
 	

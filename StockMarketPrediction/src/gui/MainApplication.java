@@ -40,7 +40,7 @@ public class MainApplication extends Application {
 	private int backprob_maxit = 3000;
 	private double backprob_threshold = Double.valueOf("1E-6");
 	public boolean customstock = false;
-	public int customstock_threshold = 100;
+	public double customstock_threshold = 100D;
 
 	private Main prediction;
 
@@ -165,7 +165,7 @@ public class MainApplication extends Application {
 		tfThreshold.setText(Double.toString(backprob_threshold));
 		final TextField tfCustomstock_Threshold = new TextField();
 		tfCustomstock_Threshold
-				.setText(Integer.toString(customstock_threshold));
+				.setText(Double.toString(customstock_threshold));
 
 		final CheckBox tfCustomstock = new CheckBox();
 		tfCustomstock.setSelected(customstock);
@@ -184,7 +184,7 @@ public class MainApplication extends Application {
 				epochNumber = Integer.valueOf(tfEpoch.getText());
 				backprob_maxit = Integer.valueOf(tfIter.getText());
 				backprob_threshold = Double.valueOf(tfThreshold.getText());
-				customstock_threshold = Integer.valueOf(tfCustomstock_Threshold
+				customstock_threshold = Double.valueOf(tfCustomstock_Threshold
 						.getText());
 				customstock = tfCustomstock.isSelected();
 

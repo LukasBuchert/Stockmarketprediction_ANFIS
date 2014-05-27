@@ -16,15 +16,15 @@ public class Main {
 
 	public Main(String inputPath, int numberOfInputVariables, int percentage,
 			int numberOfShapes, int bellSlope, int epochNumber,
-			String outputPath, int backprob_maxit, double backprob_threshold, boolean customstock, int customstock_threshold) {
+			String outputPath, int backprob_maxit, double backprob_threshold, boolean customstock, double customstock_threshold) {
 		super();
-		this.inputPath = inputPath;
-		this.numberOfInputVariables = numberOfInputVariables;
-		this.percentage = percentage;
-		this.numberOfShapes = numberOfShapes;
-		this.bellSlope = bellSlope;
-		this.epochNumber = epochNumber;
-		this.outputPath = outputPath;
+		Main.inputPath = inputPath;
+		Main.numberOfInputVariables = numberOfInputVariables;
+		Main.percentage = percentage;
+		Main.numberOfShapes = numberOfShapes;
+		Main.bellSlope = bellSlope;
+		Main.epochNumber = epochNumber;
+		Main.outputPath = outputPath;
 		Settings.backprob_maxit = backprob_maxit;
 		Settings.backprob_threshold = backprob_threshold;
 		Settings.customstock = customstock;
@@ -50,9 +50,10 @@ public class Main {
 
 		for (int i = 0; i < epochNumber; i++) {
 			result = anfis.test(trainingData, expectedOutput);
+			errorRate[i][0] = result[0][0];
 			anfis.trainConsequent(trainingData, expectedOutput);
 			anfis.trainPremise(trainingData, expectedOutput);
-			errorRate[i][0] = result[0][0];
+			
 
 		}
 

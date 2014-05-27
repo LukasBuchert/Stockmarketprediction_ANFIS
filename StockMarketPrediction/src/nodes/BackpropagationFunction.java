@@ -1,5 +1,7 @@
 package nodes;
 
+import util.Settings;
+
 
 public class BackpropagationFunction implements NodeVisitor{
 	private double input[];
@@ -94,12 +96,15 @@ public class BackpropagationFunction implements NodeVisitor{
 		pn.error = errorResult;
 	}
 
-	private double penalty = 2D;
+//	private double penalty = 2D;
 	@Override
 	public void visit(OutputNode on) {
 		on.error = -(expectedOutput - on.getOutput());
-		if(expectedOutput * on.getOutput() > 0D && Math.abs(on.getOutput()) >= 100D) {
-			on.error = 0D;
+		
+		if(Settings.customstock) {
+			if(expectedOutput * on.getOutput() > 0D && Math.abs(on.getOutput()) >= Settings.customstock_threshold) {
+				on.error = 0D;
+			}
 		}
 //		if(expectedOutput * on.getOutput() < 0D) {
 //			on.error *= (Math.abs(expectedOutput - on.getOutput()) - 99D);

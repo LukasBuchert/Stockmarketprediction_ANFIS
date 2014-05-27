@@ -18,11 +18,11 @@ public class Settings {
 	// backpropagation threshold
 	public static double backprob_threshold;
 	
-	// enable custom stock trend error
+	// enable custom stock trend error function
 	public static boolean customstock;
 	
-	// trend error function thresold
-	public static int customstock_threshold;
+	// trend error function threshold
+	public static double customstock_threshold;
 	
 	public static InputVariable [] inputVariables;
 	

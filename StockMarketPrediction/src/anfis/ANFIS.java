@@ -322,17 +322,5 @@ public class ANFIS {
 
 		return back;
 	}
-	
-//	public static MembershipFunctionNode[] getDefaultMemberships(int varNumber,
-//			double min, double max, int shapes, double slope) {
-//		MembershipFunctionNode[] back = new MembershipFunctionNode[shapes];
-//		
-//		double a = 0.0000001D;
-//		double b = 200D;
-//		back[0] = new MembershipFunctionNode(a,b,0D,varNumber,1);
-//		back[1] = new MembershipFunctionNode(a,b,1D,varNumber,2);
-//		
-//		return back;
-//	}
 
 }

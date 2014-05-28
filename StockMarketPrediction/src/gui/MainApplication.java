@@ -65,7 +65,6 @@ public class MainApplication extends Application {
 		Label lblOutput = new Label("Output Path:");
 		final Label lblStatus = new Label("Prediction not started yet!");
 
-		Button btnInputConfig = new Button("Configure");
 		Button btnProperties = new Button("Properties");
 		Button btnPrediction = new Button("Prediction");
 
@@ -164,8 +163,7 @@ public class MainApplication extends Application {
 		final TextField tfThreshold = new TextField();
 		tfThreshold.setText(Double.toString(backprob_threshold));
 		final TextField tfCustomstock_Threshold = new TextField();
-		tfCustomstock_Threshold
-				.setText(Double.toString(customstock_threshold));
+		tfCustomstock_Threshold.setText(Double.toString(customstock_threshold));
 
 		final CheckBox tfCustomstock = new CheckBox();
 		tfCustomstock.setSelected(customstock);
@@ -176,7 +174,7 @@ public class MainApplication extends Application {
 		btnBack.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(final ActionEvent ee) {
 
-				lblParameter.setText("Parameter falsch!");
+				lblParameter.setText("Parameter invalid!");
 
 				numberOfInputVariables = Integer.valueOf(tfNumberOf.getText());
 				percentage = Integer.valueOf(tfPercent.getText());
